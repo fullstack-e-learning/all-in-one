@@ -1,23 +1,25 @@
 # all-in-one-api
 
-### To build an docker image (spring native)
-
+Build & Run a Jar file
 ```shell
-./mvnw spring-boot:build-image -Pnative
+./mvnw clean install
+# RUN
+java -jar target/all-in-one-api-0.0.1-SNAPSHOT.jar
 ```
 
-### To run the image
+Build & Run a native docker Image
 
-#### Native
 ```shell
-./all-in-one-api
+./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=all-in-one-api:0.0.1-SNAPSHOT
 
-(or)
-
-sh all-in-one-api
+# RUN
+docker run -p 8080:8080 all-in-one-api:0.0.1-SNAPSHOT
 ```
 
-#### Docker 
+Build & Run native image
 ```shell
-docker run --rm -p 8080:8080 -e BASE_PATH=/tmp -v /tmp/upload:/tmp -u root all-in-one-api:0.0.1-SNAPSHOT
+./mvnw native:compile -Pnative
+
+# RUN
+./target/all-in-one-api
 ```
