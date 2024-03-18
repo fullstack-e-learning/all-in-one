@@ -41,8 +41,8 @@ class ApplicationController {
 	public Mono<String> album() {
 		return Mono.just("album");
 	}
-	@GetMapping("/emp-management")
+	@GetMapping("/mnc")
 	public Mono<String> empManagement() {
-		return Mono.just("emp-management");
+		return Mono.just("mnc");
 	}
 }

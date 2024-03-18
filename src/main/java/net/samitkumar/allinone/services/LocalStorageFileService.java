@@ -74,12 +74,14 @@ public class LocalStorageFileService implements FileService {
     public Flux<String> listAllFile() {
         return Flux.using(
                 () -> Files.walk(Path.of(basePath)),
-                (stream) -> Flux.fromStream(
-                        stream
-                                .filter(Files::isRegularFile)
-                                .map(Path::getFileName)
-                                .map(Path::toString)
-                                /*.filter(fileName -> !fileName.contains("thumbnail_"))*/
-                ), BaseStream::close);
+                (stream) -> Flux
+                        .fromStream(
+                                stream
+                                        .filter(Files::isRegularFile)
+                                        .map(Path::getFileName)
+                                        .map(Path::toString)
+                                        /*.filter(fileName -> !fileName.contains("thumbnail_"))*/
+                        ), BaseStream::close)
+                .onErrorResume(Flux::error);
     }
 }

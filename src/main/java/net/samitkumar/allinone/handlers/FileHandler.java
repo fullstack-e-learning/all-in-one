@@ -22,7 +22,10 @@ import static net.samitkumar.allinone.utilities.AllInOneUtility.mediaTypeByFileE
 public class FileHandler {
     final FileService fileService;
     public Mono<ServerResponse> allFiles(ServerRequest request) {
-        return ServerResponse.ok().body(fileService.listAllFile(), Flux.class);
+        return fileService.listAllFile()
+                .collectList() // Collect files into a list
+                .flatMap(files -> ServerResponse.ok().bodyValue(files))
+                .onErrorMap(ex -> new RuntimeException("Error fetching files: " + ex.getMessage()));
     }
 
     public Mono<ServerResponse> scan(ServerRequest request) {

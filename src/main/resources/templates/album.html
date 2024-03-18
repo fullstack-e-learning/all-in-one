@@ -99,10 +99,20 @@
                     }
                     const allFile = () => {
                         fetch(`${apiHost}/file/all`)
-                            .then(response => response.json())
-                            .then(data => data.map(d => `${apiHost}/file/view/${d}`))
-                            .then(data => files.value = data)
-                            .catch(err => e.value=err)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (Array.isArray(data)) {
+                                    files.value = data.map(d => `${apiHost}/file/view/${d}`);
+                                } else {
+                                    throw new Error('Data is not an array');
+                                }
+                            })
+                            .catch(err => e.value = err);
                     }
                     allFile()
                     return {
