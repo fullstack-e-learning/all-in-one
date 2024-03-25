@@ -20,7 +20,7 @@ public class AllInOneApplication {
 	@Bean
 	CorsWebFilter corsFilter() {
 		CorsConfiguration config = new CorsConfiguration();
-		config.addAllowedOrigin("*");
+		config.addAllowedOriginPattern("*");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
 
