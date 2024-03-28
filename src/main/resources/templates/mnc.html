@@ -64,7 +64,10 @@
                 {{ tab }}
             </button>
             <hr/>
-            <component :is="tabs[currentTab]" class="tab"></component>
+            <div class="tab">
+                <component :is="tabs[currentTab]" ></component>
+                <blog-post></blog-post>
+            </div>
         </div>
     </div>
 
@@ -107,12 +110,23 @@
     <script>
         const { createApp, ref, onMounted } = Vue
         const apiHost = 'http://localhost:8080'
+
+        //reusable component
+        const BlogPost = {
+            props: ['postTitle'],
+            emits: ['updatePost'],
+            template: `
+                        <h3>Blog Post {{ postTitle }}</h3>
+                      `
+        }
+
+        //main component
         createApp({
             setup() {
                 const message = ref('emp mgmt')
                 const currentTab = ref('DEPARTMENT')
-                const HOME = {template: `<p class="tab">Home</p>`}
-                const DEPARTMENT = {template: '#department', setup() {
+                const HOME = { template: `<p>Home</p>`}
+                const DEPARTMENT = { template: '#department', setup() {
                     const title = ref('Department')
                     const departments = ref([])
                     const department = ref({})
@@ -134,12 +148,12 @@
                         })
                         .then(r => {
                             department.value = {}
-                            alldepartment()
+                            allDepartment()
                         })
                         .catch(e => e.value = e.message)
                     }
                     
-                    const alldepartment = () => {
+                    const allDepartment = () => {
                         fetch(`${apiHost}/db/department`)
                         .then(r => {
                             if (!r.ok) {
@@ -160,30 +174,30 @@
                         .then(r => {
                             if(!r.ok)
                                 throw new Error(`HTTP error! Status: ${r.status}`);
-                            alldepartment()
+                            allDepartment()
                         })
                         .catch(e => e.value = e.message)
                     }
 
                     onMounted(() => {
-                        alldepartment()
+                        allDepartment()
                     })
                     
                     return {
                         title, saveDepartment, department, departments, e, deleteDepartment
                     }
                 }}
-                const JOB_TITLE = {template: `<p>JOB Title</p>`}
-                const EMPLOYEE = {template: `<p>Employee</p>`}
-                const EMPLOYEE_HISTORY = {template: `<p>Employee History</p>`}
-                const EMPLOYEE_DOCUMENTS = {template: `<p>Employee Documents</p>`}
+                const JOB_TITLE = { template: `<p>JOB Title</p>`}
+                const EMPLOYEE = { template: `<p>Employee</p>`}
+                const EMPLOYEE_HISTORY = { template: `<p>Employee History</p>`}
+                const EMPLOYEE_DOCUMENTS = { template: `<p>Employee Documents</p>`}
                 const tabs = { HOME, DEPARTMENT, JOB_TITLE, EMPLOYEE, EMPLOYEE_HISTORY, EMPLOYEE_DOCUMENTS }
-
-
                 return {
                     message, currentTab, tabs
                 }
-            }
+            },
+            //register the external component
+            components: { BlogPost }
         }).mount('#app')
     </script>
 </body>
