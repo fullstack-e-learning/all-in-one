@@ -49,6 +49,10 @@
             border: 1px solid black;
             border-collapse: collapse;
         }
+        * {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
 
     </style>
 </head>
@@ -66,20 +70,25 @@
             <hr/>
             <div class="tab">
                 <component :is="tabs[currentTab]" ></component>
-                <blog-post></blog-post>
             </div>
         </div>
     </div>
 
     <template id="department">
-        <p>{{ title }}</p>
+        <strong>{{ title }}</strong>
         <p style="color: red;">{{ e }}</p>
+
         <div id="department__form">
             <form @submit.prevent="saveDepartment">
-                <label for="department__form__name">Name</label>
-                <input id="department__form__name" placeholder="department Name" v-model="department.departmentName"/>
-                <button type="submit">Ok</button>
-                <button type="reset">reset</button>
+                <fieldset>
+                    <legend>Create Department:</legend>
+                    <label for="department__form__name">Name</label>
+                    <br/>
+                    <input id="department__form__name" placeholder="department Name" v-model="department.departmentName"/>
+                    <br/>
+                    <button type="submit">Ok</button>
+                    <button type="reset">reset</button>
+                </fieldset>
             </form>
         </div>
         <hr/>
@@ -105,100 +114,284 @@
             </table>
         </div>
     </template>
+    <template id="job_title">
+        <strong>{{ title }}</strong>
+        <p style="color: red">{{ e }}</p>
+        <form @submit.prevent="submitJobTitle">
+            <fieldset>
+                <legend>Create job Title</legend>
+                <label for="job_title__title">Title</label><br/>
+                <input type="text" id="job_title__title" v-model="jobTitle.title"/>
+                <br/>
+                <label for="job_title__minsalary">Min Salary</label><br/>
+                <input type="number" id="job_title__minsalary" v-model="jobTitle.minSalary"/>
+                <br/>
+                <label for="job_title__maxsalary">Max Salary</label><br/>
+                <input type="number" id="job_title__maxsalary" v-model="jobTitle.maxSalary">
+                <br/>
+                <button type="submit">Submit</button>
+                <button type="reset">Reset</button>
+            </fieldset>
+        </form>
+        <hr/>
+        <p v-if="jobTitles.length === 0">No data found!</p>
+        <table v-else>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Min Salary</th>
+                    <th>Max Salary</th>
+                    <th>_</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="jt in jobTitles">
+                    <td>{{ jt.jobId}}</td>
+                    <td>{{ jt.title }}</td>
+                    <td>{{ jt.minSalary }}</td>
+                    <td>{{ jt.maxSalary }}</td>
+                    <td>
+                        <button>Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+    <template id="employee">
+        <strong>{{ title }}</strong>
+        <p style="color: red">{{ e }}</p>
+
+        <form>
+            <fieldset>
+                <legend>Create Employee:</legend>
+                <label>First Name</label><br/>
+                <input type="text" v-model="employee.firstName"/>
+                <br/>
+                <label>Last Name</label><br/>
+                <input type="text" v-model="employee.lastName"/>
+                <br/>
+                <label>Email</label><br/>
+                <input type="email" v-model="employee.email"/>
+                <br/>
+                <label>Phone Number</label><br/>
+                <input type="number" v-model="employee.phoneNumber"/>
+                <br/>
+                <label>Hire Date</label><br/>
+                <input type="date" v-model="employee.hireDate"/>
+                <br/>
+                <label>Job Title</label><br/>
+                <input type="text" v-model="employee.jobId"/>
+                <br/>
+                <label>Salary</label><br/>
+                <input type="number" v-model="employee.salary"/>
+                <br/>
+                <label>Manager Id</label><br/>
+                <input type="text" v-model="employee.managerId" disabled/>
+                <br/>
+                <label>Department Name</label><br/>
+                <input type="text" v-model="employee.departmentId"/>
+                <br/>
+                <label>Employee History</label><br/>
+                <input type="text" v-model="employee.employeeHistory" disabled/>
+                <br/>
+                <label>Employee Documents</label><br/>
+                <input type="text" v-model="employee.employeeDocuments"/>
+                <br/>
+                <button type="submit">Ok</button>
+                <button type="reset">Reset</button>
+            </fieldset>
+        </form>
+        <hr/>
+        <p v-if="employees.length === 0">no data found!</p>
+        <table v-else>
+            <thead>
+                <tr></tr>
+            </thead>
+            <tbody>
+                <tr></tr>
+            </tbody>
+        </table>
+    </template>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- pinia-->
+    <script src="https://unpkg.com/vue-demi"></script>
+    <script src="https://unpkg.com/pinia"></script>
+    <!-- pinia-->
+
     <script>
-        const { createApp, ref, onMounted } = Vue
+        const {createApp, ref, onMounted, computed} = Vue
+        const { createPinia, defineStore } = Pinia
+        const pinia = createPinia()
         const apiHost = 'http://localhost:8080'
 
-        //reusable component
+        //store
+        const departmentStore = defineStore('department', () => {
+            const departments = ref([])
+            return { departments }
+        })
+
+        //reusable component <blog-post></blog-post>
         const BlogPost = {
             props: ['postTitle'],
             emits: ['updatePost'],
             template: `
-                        <h3>Blog Post {{ postTitle }}</h3>
-                      `
+              <h3>Blog Post {{ postTitle }}</h3>
+            `
         }
 
-        //main component
+
+        //vue app
         createApp({
             setup() {
                 const message = ref('emp mgmt')
-                const currentTab = ref('DEPARTMENT')
-                const HOME = { template: `<p>Home</p>`}
-                const DEPARTMENT = { template: '#department', setup() {
-                    const title = ref('Department')
-                    const departments = ref([])
-                    const department = ref({})
-                    const e = ref(null)
-                    const saveDepartment = () => {
-                        console.log(department.value)
-                        fetch(`${apiHost}/db/department`, {
-                            method: 'POST',
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(department.value)
-                        })
-                        .then(r => {
-                            if (!r.ok) {
-                                throw new Error(`HTTP error! Status: ${r.status}`);
-                            }
-                            return r.json();
-                        })
-                        .then(r => {
-                            department.value = {}
+                const currentTab = ref('EMPLOYEE')
+                const HOME = {template: `<p>Home</p>`}
+                const DEPARTMENT = {
+                    template: '#department',
+                    setup() {
+                        const title = ref('Department')
+                        const departments = ref([])
+                        const department = ref({})
+                        const e = ref(null)
+
+                        const saveDepartment = () => {
+                            fetch(`${apiHost}/db/department`, {
+                                method: 'POST',
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(department.value)
+                            })
+                                .then(r => {
+                                    if (!r.ok) {
+                                        throw new Error(`HTTP error! Status: ${r.status}`);
+                                    } else {
+                                        return r.json();
+                                    }
+                                })
+                                .then(r => {
+                                    department.value = {}
+                                    allDepartment()
+                                })
+                                .catch(err => e.value = err)
+                        }
+
+                        const allDepartment = () => {
+                            fetch(`${apiHost}/db/department`)
+                                .then(r => {
+                                    if (!r.ok) {
+                                        throw new Error(`HTTP error! Status: ${r.status}`);
+                                    } else {
+                                        return r.json();
+                                    }
+                                })
+                                .then(r => {
+                                    departments.value = r
+                                })
+                                .catch(err => e.value = err)
+                        }
+
+                        const deleteDepartment = (id) => {
+                            fetch(`${apiHost}/db/department/${id}`, {
+                                method: 'DELETE'
+                            })
+                                .then(r => {
+                                    if (!r.ok)
+                                        throw new Error(`HTTP error! Status: ${r.status}`);
+                                    allDepartment()
+                                })
+                                .catch(e => e.value = e)
+                        }
+
+                        onMounted(() => {
                             allDepartment()
                         })
-                        .catch(e => e.value = e.message)
-                    }
-                    
-                    const allDepartment = () => {
-                        fetch(`${apiHost}/db/department`)
-                        .then(r => {
-                            if (!r.ok) {
-                                throw new Error(`HTTP error! Status: ${r.status}`);
-                            }
-                            return r.json();
-                        })
-                        .then(r => {
-                            departments.value = r
-                        })
-                        .catch(e => e.value = e.message)
-                    }
 
-                    const deleteDepartment = (id) => {
-                        fetch(`${apiHost}/db/department/${id}`,{
-                            method: 'DELETE'
-                        })
-                        .then(r => {
-                            if(!r.ok)
-                                throw new Error(`HTTP error! Status: ${r.status}`);
-                            allDepartment()
-                        })
-                        .catch(e => e.value = e.message)
+                        return {
+                            title, saveDepartment, department, departments, e, deleteDepartment
+                        }
                     }
+                }
+                const JOB_TITLE = {
+                    template: '#job_title',
+                    setup() {
+                        const title = ref('Job Title')
+                        const jobTitle = ref({})
+                        const jobTitles = ref([])
+                        const e = ref(null)
+                        const submitJobTitle = () => {
+                            fetch(`${apiHost}/db/jobtitle`,{
+                                method: 'POST',
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(jobTitle.value)
+                            })
+                                .then(r => {
+                                    console.log(`r = ${r}`)
+                                    if(!r.ok){
+                                        throw new Error('POST api  error')
+                                    } else {
+                                        return r.json()
+                                    }
+                                })
+                                .then(data => {
+                                    console.log(data)
+                                    jobTitle.value = {}
+                                    allJobTitles()
+                                })
+                                .catch(err => e.value = err)
+                        }
+                        const allJobTitles = () => {
+                            fetch(`${apiHost}/db/jobtitle`)
+                                .then(response => {
+                                    if(!response.ok) {
+                                        throw new Error('GET api error')
+                                    } else {
+                                        return response.json()
+                                    }
+                                })
+                                .then(data => jobTitles.value = data)
+                                .catch(err => e.value= err)
+                        }
+                        onMounted(() => {
+                            allJobTitles()
+                        })
 
-                    onMounted(() => {
-                        allDepartment()
-                    })
-                    
-                    return {
-                        title, saveDepartment, department, departments, e, deleteDepartment
+                        return {
+                            title, jobTitle, jobTitles, e, submitJobTitle
+                        }
                     }
-                }}
-                const JOB_TITLE = { template: `<p>JOB Title</p>`}
-                const EMPLOYEE = { template: `<p>Employee</p>`}
-                const EMPLOYEE_HISTORY = { template: `<p>Employee History</p>`}
-                const EMPLOYEE_DOCUMENTS = { template: `<p>Employee Documents</p>`}
-                const tabs = { HOME, DEPARTMENT, JOB_TITLE, EMPLOYEE, EMPLOYEE_HISTORY, EMPLOYEE_DOCUMENTS }
+                }
+                const EMPLOYEE = {
+                    template: '#employee',
+                    setup() {
+                        const title = ref('Employee')
+                        const employees = ref([])
+                        const employee = ref({})
+                        const e = ref(null)
+
+                        onMounted(() => {
+                            console.log('EMPLOYEE mounted')
+                        })
+
+                        return{
+                            title, employees, employee, e
+                        }
+                    }
+                }
+                const EMPLOYEE_HISTORY = {template: `<p>Employee History</p>`}
+                const EMPLOYEE_DOCUMENTS = {template: `<p>Employee Documents</p>`}
+                const tabs = {HOME, DEPARTMENT, JOB_TITLE, EMPLOYEE, EMPLOYEE_HISTORY, EMPLOYEE_DOCUMENTS}
                 return {
                     message, currentTab, tabs
                 }
             },
             //register the external component
-            components: { BlogPost }
-        }).mount('#app')
+            components: {BlogPost}
+        }).use(pinia).mount('#app')
     </script>
 </body>
 </html>
