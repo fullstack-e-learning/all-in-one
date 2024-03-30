@@ -231,7 +231,7 @@
 
     <script>
         const {createApp, ref, onMounted, computed} = Vue
-        const { createPinia, defineStore } = Pinia
+        const { createPinia, defineStore, storeToRefs } = Pinia
         const pinia = createPinia()
         const apiHost = 'http://localhost:8080'
 
@@ -412,8 +412,16 @@
                         const employees = ref([])
                         const employee = ref({})
                         const e = ref(null)
-                        const { departments, allDepartments} = departmentStore()
-                        const { jobTitles, allJobTitle } = jobTitleStore()
+                        //usage of dept store
+                        const deptStore = departmentStore();
+                        const { allDepartments } = deptStore;
+                        const { departments } = storeToRefs(deptStore)
+
+                        //usage of jobTitle store
+                        const jtStore = jobTitleStore();
+                        const { allJobTitle } = jtStore
+                        const { jobTitles } = storeToRefs(jtStore)
+
                         const saveEmployee = () => {
                             console.log(employee.value)
                             fetch(`${apiHost}/db/employee`,{
@@ -452,7 +460,7 @@
                             allJobTitle();
                         })
 
-                        return{
+                        return {
                             title, employees, employee, e, saveEmployee, departments, jobTitles, allEmployee
                         }
                     }
