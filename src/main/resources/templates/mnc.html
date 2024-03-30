@@ -162,7 +162,7 @@
         <strong>{{ title }}</strong>
         <p style="color: red">{{ e }}</p>
 
-        <form>
+        <form @submit.prevent="saveEmployee">
             <fieldset>
                 <legend>Create Employee:</legend>
                 <label>First Name</label><br/>
@@ -175,13 +175,15 @@
                 <input type="email" v-model="employee.email"/>
                 <br/>
                 <label>Phone Number</label><br/>
-                <input type="number" v-model="employee.phoneNumber"/>
+                <input type="tel" v-model="employee.phoneNumber"/>
                 <br/>
                 <label>Hire Date</label><br/>
                 <input type="date" v-model="employee.hireDate"/>
                 <br/>
                 <label>Job Title</label><br/>
-                <input type="text" v-model="employee.jobId"/>
+                <select v-model="employee.jobId">
+                    <option v-for="jt in jobTitles" :value="jt.jobId">{{jt.title}}</option>
+                </select>
                 <br/>
                 <label>Salary</label><br/>
                 <input type="number" v-model="employee.salary"/>
@@ -190,14 +192,17 @@
                 <input type="text" v-model="employee.managerId" disabled/>
                 <br/>
                 <label>Department Name</label><br/>
-                <input type="text" v-model="employee.departmentId"/>
+                <select v-model="employee.departmentId">
+                    <option v-for="dept in departments" :value="dept.departmentId">{{dept.departmentName}}</option>
+                </select>
                 <br/>
+                <hr/>
                 <label>Employee History</label><br/>
                 <input type="text" v-model="employee.employeeHistory" disabled/>
-                <br/>
+                <hr/>
                 <label>Employee Documents</label><br/>
-                <input type="text" v-model="employee.employeeDocuments"/>
-                <br/>
+                <input type="text" v-model="employee.employeeDocuments" disabled/>
+                <hr/>
                 <button type="submit">Ok</button>
                 <button type="reset">Reset</button>
             </fieldset>
@@ -206,10 +211,14 @@
         <p v-if="employees.length === 0">no data found!</p>
         <table v-else>
             <thead>
-                <tr></tr>
+                <tr>
+                    <th v-for="k in Object.keys(employees[0])">{{k}}</th>
+                </tr>
             </thead>
             <tbody>
-                <tr></tr>
+                <tr v-for="e in employees">
+                    <td v-for="k in Object.keys(employees[0])">{{e[k]}}</td>
+                </tr>
             </tbody>
         </table>
     </template>
@@ -229,7 +238,39 @@
         //store
         const departmentStore = defineStore('department', () => {
             const departments = ref([])
-            return { departments }
+            const allDepartments = () => {
+                fetch(`${apiHost}/db/department`)
+                    .then(r => {
+                        if (!r.ok) {
+                            throw new Error(`HTTP error! Status: ${r.status}`);
+                        } else {
+                            return r.json();
+                        }
+                    })
+                    .then(data => departments.value = data)
+                    .catch(err => console.log(err))
+            }
+            return { departments, allDepartments }
+        })
+
+        const jobTitleStore = defineStore('jobTitle', () => {
+            const jobTitles = ref([])
+            const allJobTitle = () => {
+                fetch(`${apiHost}/db/jobtitle`)
+                    .then(response => {
+                        if(!response.ok) {
+                            throw new Error('GET api error')
+                        } else {
+                            return response.json()
+                        }
+                    })
+                    .then(data => jobTitles.value = data)
+                    .catch(err => console.log(err))
+            }
+
+            return {
+                jobTitles, allJobTitle
+            }
         })
 
         //reusable component <blog-post></blog-post>
@@ -240,7 +281,6 @@
               <h3>Blog Post {{ postTitle }}</h3>
             `
         }
-
 
         //vue app
         createApp({
@@ -372,13 +412,48 @@
                         const employees = ref([])
                         const employee = ref({})
                         const e = ref(null)
+                        const { departments, allDepartments} = departmentStore()
+                        const { jobTitles, allJobTitle } = jobTitleStore()
+                        const saveEmployee = () => {
+                            console.log(employee.value)
+                            fetch(`${apiHost}/db/employee`,{
+                                method: 'POST',
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify(employee.value)
+                            })
+                                .then(r => {
+                                    if(!r.ok)
+                                        throw new Error("Error during employee persist")
+                                    return r.json()
+                                })
+                                .then(data => {
+                                    console.log(data)
+                                    employee.value = {}
+                                    allEmployee()
+                                })
+                                .catch(err => e.value = err)
+
+                        }
+                        const allEmployee = () => {
+                            fetch(`${apiHost}/db/employee`)
+                                .then(r => {
+                                    if(!r.ok)
+                                        throw new Error("Employee fetch error")
+                                    return r.json()
+                                })
+                                .then(data => employees.value = data)
+                                .catch(err => e.value = err)
+                        }
 
                         onMounted(() => {
                             console.log('EMPLOYEE mounted')
+                            allEmployee()
+                            allDepartments();
+                            allJobTitle();
                         })
 
                         return{
-                            title, employees, employee, e
+                            title, employees, employee, e, saveEmployee, departments, jobTitles, allEmployee
                         }
                     }
                 }
