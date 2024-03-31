@@ -224,6 +224,24 @@
             </tbody>
         </table>
     </template>
+    <template id="employee__history">
+        <strong>{{ title }}</strong>
+        <p style="color: red">{{ e }}</p>
+        <hr/>
+        <p v-if="employeeHistories.length === 0">No data found!</p>
+        <table v-else>
+            <thead>
+                <tr>
+                    <th v-for="k in Object.keys(employeeHistories[0])">{{k}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="eh in employeeHistories">
+                    <td v-for="k in Object.keys(employeeHistories[0])">{{ eh[k] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <!-- pinia-->
@@ -274,7 +292,23 @@
                 jobTitles, allJobTitle
             }
         })
-
+        const employeeStore = defineStore('employee', () => {
+            const employees = ref([])
+            const employeeNames = computed(() => employees.value.map((e) => `${e.firstName} ${e.lastName}`))
+            const allEmployee = () => {
+                fetch(`${apiHost}/db/employee`)
+                    .then(r => {
+                        if(!r.ok)
+                            throw new Error("Employee fetch error")
+                        return r.json()
+                    })
+                    .then(data => employees.value = data)
+                    .catch(err => e.value = err)
+            }
+            return {
+                employees, employeeNames, allEmployee
+            }
+        })
         //reusable component <blog-post></blog-post>
         const BlogPost = {
             props: ['postTitle'],
@@ -288,7 +322,7 @@
         createApp({
             setup() {
                 const message = ref('emp mgmt')
-                const currentTab = ref('EMPLOYEE')
+                const currentTab = ref('EMPLOYEE_HISTORY')
                 const HOME = {template: `<p>Home</p>`}
                 const DEPARTMENT = {
                     template: '#department',
@@ -411,7 +445,7 @@
                     template: '#employee',
                     setup() {
                         const title = ref('Employee')
-                        const employees = ref([])
+                        //const employees = ref([])
                         const employee = ref({employeeHistory: {}})
                         const e = ref(null)
                         //usage of dept store
@@ -423,6 +457,10 @@
                         const jtStore = jobTitleStore();
                         const { allJobTitle } = jtStore
                         const { jobTitles } = storeToRefs(jtStore)
+
+                        const empStore = employeeStore()
+                        const { allEmployee } = empStore
+                        const { employees, employeeNames } = storeToRefs(empStore)
 
                         const saveEmployee = () => {
                             //adjust employeeHistory entity
@@ -455,7 +493,7 @@
                                 .catch(err => e.value = err)
 
                         }
-                        const allEmployee = () => {
+                        /*const allEmployee = () => {
                             fetch(`${apiHost}/db/employee`)
                                 .then(r => {
                                     if(!r.ok)
@@ -464,7 +502,7 @@
                                 })
                                 .then(data => employees.value = data)
                                 .catch(err => e.value = err)
-                        }
+                        }*/
 
                         onMounted(() => {
                             console.log('EMPLOYEE mounted')
@@ -478,7 +516,38 @@
                         }
                     }
                 }
-                const EMPLOYEE_HISTORY = {template: `<p>Employee History</p>`}
+                const EMPLOYEE_HISTORY = {
+                    template: '#employee__history',
+                    setup() {
+                        const title = ref('Employee History')
+                        const e = ref(null)
+                        const employeeHistory = ref({})
+                        const employeeHistories = ref([])
+
+                        const saveEmployeeHistory = () => {
+
+                        }
+                        const allEmployeeHistory = () => {
+                            fetch(`${apiHost}/db/employee/history`)
+                                .then(response => {
+                                    if(!response.ok) {
+                                        throw new Error('GET api error')
+                                    } else {
+                                        return response.json()
+                                    }
+                                })
+                                .then(data => employeeHistories.value = data)
+                                .catch(err => e.value = err)
+                        }
+
+                        onMounted(() => {
+                            allEmployeeHistory()
+                        })
+                        return {
+                            title, e, employeeHistory, employeeHistories, saveEmployeeHistory, allEmployeeHistory
+                        }
+                    }
+                }
                 const EMPLOYEE_DOCUMENTS = {template: `<p>Employee Documents</p>`}
                 const tabs = {HOME, DEPARTMENT, JOB_TITLE, EMPLOYEE, EMPLOYEE_HISTORY, EMPLOYEE_DOCUMENTS}
                 return {

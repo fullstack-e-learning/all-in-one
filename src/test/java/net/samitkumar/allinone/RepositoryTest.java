@@ -92,9 +92,9 @@ public class RepositoryTest {
                             200.00,
                             null,
                             departments.get(1).departmentId(),
-                            new EmployeeHistory(null, LocalDate.now(), null, jobTitles.get(1).jobId(), departments.get(1).departmentId()),
+                            new EmployeeHistory(null, LocalDate.now(), null, jobTitles.get(1).jobId(), departments.get(1).departmentId(), null),
                             Set.of(
-                                    new EmployeeDocument(null, "IT-Return", "hello-world".getBytes())
+                                    new EmployeeDocument(null, "IT-Return", "hello-world".getBytes(), null)
                             )
                     )
                 );

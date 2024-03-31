@@ -38,7 +38,7 @@ public class EmployeeHistoryHandler {
                 .bodyToMono(EmployeeHistory.class)
                 .zipWith(Mono.fromCallable(() -> employeeHistoryRepository.findById(id).orElseThrow()), (newEmpHistory, existingEmpHistory) -> {
                     return
-                            new EmployeeHistory(existingEmpHistory.historyId(), newEmpHistory.startDate(), newEmpHistory.endDate(), newEmpHistory.jobId(), newEmpHistory.departmentId());
+                            new EmployeeHistory(existingEmpHistory.historyId(), newEmpHistory.startDate(), newEmpHistory.endDate(), newEmpHistory.jobId(), newEmpHistory.departmentId(), existingEmpHistory.employeeId());
                 })
                 .map(employeeHistoryRepository::save)
                 .flatMap(ServerResponse.ok()::bodyValue);

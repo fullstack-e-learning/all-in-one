@@ -7,5 +7,6 @@ import org.springframework.data.relational.core.mapping.Table;
 public record EmployeeDocument(
         @Id Integer documentId,
         String documentName,
-        byte[] documentContent) {
+        byte[] documentContent,
+        Integer employeeId) {
 }

@@ -12,4 +12,5 @@ public record EmployeeHistory(
         @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate startDate,
         @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate endDate,
         Integer jobId,
-        Integer departmentId){}
+        Integer departmentId,
+        Integer employeeId){}
