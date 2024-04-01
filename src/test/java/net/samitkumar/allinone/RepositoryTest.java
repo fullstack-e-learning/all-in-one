@@ -6,10 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.nio.ByteBuffer;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -94,8 +96,9 @@ public class RepositoryTest {
                             departments.get(1).departmentId(),
                             new EmployeeHistory(null, LocalDate.now(), null, jobTitles.get(1).jobId(), departments.get(1).departmentId(), null),
                             Set.of(
-                                    new EmployeeDocument(null, "IT-Return", "hello-world".getBytes(), null)
-                            )
+                                    new EmployeeDocument(null, "IT-Return", "".getBytes(), null)
+                            ),
+                            null
                     )
                 );
         System.out.println(emp1);

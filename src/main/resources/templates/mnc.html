@@ -199,18 +199,21 @@
                 </select>
                 <br/>
                 <hr/>
-                <label>Start Date (<span style="color: gray">Employee History</span>)</label><br/>
+                <label>Start Date <span style="color: gray">(Employee History)</span></label><br/>
                 <input type="date" v-model="employee.employeeHistory.startDate"/>
                 <hr/>
-                <label>Employee Documents</label><br/>
-                <input type="text" v-model="employee.employeeDocuments" disabled/>
+                <label>Document Name <span style="color: gray">Employee Documents</span></label><br/>
+                <input type="text" v-model="employee.employeeDocuments[0].documentName" />
+                <br/>
+                <label>Documents <span style="color: gray">Employee Documents</span></label><br/>
+                <input type="file" v-on:change="handleFileChange"/><br/>
                 <hr/>
                 <button type="submit">Ok</button>
                 <button type="reset">Reset</button>
             </fieldset>
         </form>
         <hr/>
-        <p v-if="employees.length === 0">no data found!</p>
+        <p v-if="employees.length === 0">No data found!</p>
         <table v-else>
             <thead>
                 <tr>
@@ -227,6 +230,7 @@
     <template id="employee__history">
         <strong>{{ title }}</strong>
         <p style="color: red">{{ e }}</p>
+
         <hr/>
         <p v-if="employeeHistories.length === 0">No data found!</p>
         <table v-else>
@@ -446,7 +450,7 @@
                     setup() {
                         const title = ref('Employee')
                         //const employees = ref([])
-                        const employee = ref({employeeHistory: {}})
+                        const employee = ref({employeeHistory: {}, employeeDocuments: [{}]})
                         const e = ref(null)
                         //usage of dept store
                         const deptStore = departmentStore();
@@ -462,6 +466,26 @@
                         const { allEmployee } = empStore
                         const { employees, employeeNames } = storeToRefs(empStore)
 
+                        const handleFileChange = (event) => {
+                            const file = event.target.files[0];
+                            console.log(file)
+                            //employee.value.employeeDocuments[0].documentContent = uint8Array;
+                            console.log(file.name)
+                            file.text()
+                                .then(t => console.log(t))
+                                .catch(e => console.error(e))
+
+                            file.arrayBuffer()
+                                .then(t => {
+                                    console.log(t)
+                                    const byteArray = new Uint8Array(t);
+                                    console.log(byteArray);
+                                })
+                                .catch(e => console.error(e))
+
+
+
+                        }
                         const saveEmployee = () => {
                             //adjust employeeHistory entity
                             employee.value = {
@@ -487,7 +511,7 @@
                                 })
                                 .then(data => {
                                     console.log(data)
-                                    employee.value = {employeeHistory: {}}
+                                    employee.value = {employeeHistory: {}, employeeDocuments: [{}]}
                                     allEmployee()
                                 })
                                 .catch(err => e.value = err)
@@ -512,7 +536,7 @@
                         })
 
                         return {
-                            title, employees, employee, e, saveEmployee, departments, jobTitles, allEmployee
+                            title, employees, employee, e, saveEmployee, departments, jobTitles, allEmployee, handleFileChange
                         }
                     }
                 }

@@ -4,9 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import net.samitkumar.allinone.handlers.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 
 @Configuration
@@ -67,7 +71,7 @@ public class Routers {
                         //TODO implement DELETE
                 )
                 .after((request, response) -> {
-                    log.info("{} {} {}",request.method(), request.path(), response.statusCode());
+                    log.info("{} {} {}", request.method(), request.path(), response.statusCode());
                     return response;
                 })
                 .build();

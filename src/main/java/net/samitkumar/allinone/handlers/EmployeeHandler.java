@@ -3,6 +3,7 @@ package net.samitkumar.allinone.handlers;
 import lombok.RequiredArgsConstructor;
 import net.samitkumar.allinone.models.Employee;
 import net.samitkumar.allinone.repositories.EmployeeRepository;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -29,6 +30,11 @@ public class EmployeeHandler {
     public Mono<ServerResponse> newEmployee(ServerRequest request) {
         return request
                 .bodyToMono(Employee.class)
+                .map(employee -> {
+                    var filePart = (FilePart) employee.file();
+                    System.out.println(filePart.filename());
+                    return employee;
+                })
                 .map(employeeRepository::save)
                 .flatMap(ServerResponse.ok()::bodyValue);
     }
@@ -50,7 +56,9 @@ public class EmployeeHandler {
                             newEmp.managerId(),
                             newEmp.departmentId(),
                             nonNull(newEmp.employeeHistory())? newEmp.employeeHistory() : existingEmp.employeeHistory(),
-                            nonNull(newEmp.employeeDocuments()) ? newEmp.employeeDocuments() : existingEmp.employeeDocuments());
+                            nonNull(newEmp.employeeDocuments()) ? newEmp.employeeDocuments() : existingEmp.employeeDocuments(),
+                            null
+                            );
                 })
                 .map(employeeRepository::save)
                 .flatMap(ServerResponse.ok()::bodyValue);
