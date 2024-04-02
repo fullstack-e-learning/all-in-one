@@ -31,7 +31,7 @@ jobs:
           
           ./mvnw -B spring-boot:build-image \
               -Pnative \
-              -Dspring-boot.build-image.imageName=ghcr.io/${{ github.actor }}/${{github.event.repository.name}}:$(date +%d%m%Y%H%M)
+              -Dspring-boot.build-image.imageName=ghcr.io/${{ github.repository_owner }}/${{github.event.repository.name}}:$(date +%d%m%Y%H%M)
           
           docker images -a
       - name: Login to GitHub Container Registry
@@ -41,7 +41,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: docker push
-        run: docker push -a ghcr.io/${{ github.actor }}/${{github.event.repository.name}}
+        run: docker push -a ghcr.io/${{ github.repository_owner }}/${{github.event.repository.name}}
   maven-build:
     runs-on: ubuntu-latest
     permissions:
