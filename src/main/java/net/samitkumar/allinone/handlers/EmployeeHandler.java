@@ -30,11 +30,6 @@ public class EmployeeHandler {
     public Mono<ServerResponse> newEmployee(ServerRequest request) {
         return request
                 .bodyToMono(Employee.class)
-                .map(employee -> {
-                    var filePart = (FilePart) employee.file();
-                    System.out.println(filePart.filename());
-                    return employee;
-                })
                 .map(employeeRepository::save)
                 .flatMap(ServerResponse.ok()::bodyValue);
     }
