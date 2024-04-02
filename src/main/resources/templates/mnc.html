@@ -53,15 +53,19 @@
             margin-top: 5px;
             margin-bottom: 5px;
         }
-
+        div.parent {
+            display: flex;
+        }
+        div.children-right {
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body>
     <div id="app">
        <h1>{{ message }}</h1>
         <div class="demo">
-            <button
-                    v-for="(_, tab) in tabs"
+            <button v-for="(_, tab) in tabs"
                     :key="tab"
                     :class="['tab-button', { active: currentTab === tab }]"
                     @click="currentTab = tab">
@@ -165,48 +169,67 @@
         <form @submit.prevent="saveEmployee">
             <fieldset>
                 <legend>Create Employee:</legend>
-                <label>First Name</label><br/>
-                <input type="text" v-model="employee.firstName"/>
-                <br/>
-                <label>Last Name</label><br/>
-                <input type="text" v-model="employee.lastName"/>
-                <br/>
-                <label>Email</label><br/>
-                <input type="email" v-model="employee.email"/>
-                <br/>
-                <label>Phone Number</label><br/>
-                <input type="tel" v-model="employee.phoneNumber"/>
-                <br/>
-                <label>Hire Date</label><br/>
-                <input type="date" v-model="employee.hireDate"/>
-                <br/>
-                <label>Job Title</label><br/>
-                <select v-model="employee.jobId">
-                    <option disabled value="">Please select one</option>
-                    <option v-for="jt in jobTitles" :value="jt.jobId">{{jt.title}}</option>
-                </select>
-                <br/>
-                <label>Salary</label><br/>
-                <input type="number" v-model="employee.salary"/>
-                <br/>
-                <label>Manager Id</label><br/>
-                <input type="text" v-model="employee.managerId" disabled/>
-                <br/>
-                <label>Department Name</label><br/>
-                <select v-model="employee.departmentId">
-                    <option disabled value="">Please select one</option>
-                    <option v-for="dept in departments" :value="dept.departmentId">{{dept.departmentName}}</option>
-                </select>
-                <br/>
-                <hr/>
-                <label>Start Date <span style="color: gray">(Employee History)</span></label><br/>
-                <input type="date" v-model="employee.employeeHistory.startDate"/>
-                <hr/>
-                <label>Document Name <span style="color: gray">Employee Documents</span></label><br/>
-                <input type="text" v-model="employee.employeeDocuments[0].documentName" />
-                <br/>
-                <label>Documents <span style="color: gray">Employee Documents</span></label><br/>
-                <input type="file" v-on:change="handleFileChange"/><br/>
+                <div class="parent">
+                    <div>
+                        <label>First Name</label><br/>
+                        <input type="text" v-model="employee.firstName"/>
+                    </div>
+                    <div class="children-right">
+                        <label>Last Name</label><br/>
+                        <input type="text" v-model="employee.lastName"/>
+                    </div>
+                </div>
+                <div class="parent">
+                    <div>
+                        <label>Email</label><br/>
+                        <input type="email" v-model="employee.email"/>
+                    </div>
+                    <div class="children-right">
+                        <label>Phone Number</label><br/>
+                        <input type="tel" v-model="employee.phoneNumber"/>
+                    </div>
+                    <div class="children-right">
+                        <label>Manager Id</label><br/>
+                        <input type="text" v-model="employee.managerId" disabled/>
+                    </div>
+                </div>
+
+                <div class="parent">
+                    <div>
+                        <label>Hire Date</label><br/>
+                        <input type="date" v-model="employee.hireDate"/>
+                    </div>
+                    <div class="children-right">
+                        <label>Start Date <span style="color: gray">(Employee History)</span></label><br/>
+                        <input type="date" v-model="employee.employeeHistory.startDate"/>
+                    </div>
+                </div>
+                <div class="parent">
+                    <div>
+                        <label>Department Name</label><br/>
+                        <select v-model="employee.departmentId">
+                            <option disabled value="">Please select one</option>
+                            <option v-for="dept in departments" :value="dept.departmentId">{{dept.departmentName}}</option>
+                        </select>
+                    </div>
+                    <div class="children-right">
+                        <label>Job Title</label><br/>
+                        <select v-model="employee.jobId">
+                            <option disabled value="">Please select one</option>
+                            <option v-for="jt in jobTitles" :value="jt.jobId">{{jt.title}}</option>
+                        </select>
+                    </div>
+                    <div class="children-right">
+                        <label>Salary</label><br/>
+                        <input type="number" v-model="employee.salary"/>
+                    </div>
+                </div>
+<!--                <hr/>-->
+<!--                <label>Document Name <span style="color: gray">Employee Documents</span></label><br/>-->
+<!--                <input type="text" v-model="employee.employeeDocuments[0].documentName" disabled />-->
+<!--                <br/>-->
+<!--                <label>Documents <span style="color: gray">Employee Documents</span></label><br/>-->
+<!--                <input type="file" v-on:change="handleFileChange" disabled/><br/>-->
                 <hr/>
                 <button type="submit">Ok</button>
                 <button type="reset">Reset</button>
@@ -326,9 +349,9 @@
         createApp({
             setup() {
                 const message = ref('emp mgmt')
-                const currentTab = ref('EMPLOYEE_HISTORY')
-                const HOME = {template: `<p>Home</p>`}
-                const DEPARTMENT = {
+                const currentTab = ref('Employee')
+                const Home = {template: `<p>Home</p>`}
+                const Department = {
                     template: '#department',
                     setup() {
                         const title = ref('Department')
@@ -394,7 +417,7 @@
                         }
                     }
                 }
-                const JOB_TITLE = {
+                const JobTitle = {
                     template: '#job_title',
                     setup() {
                         const title = ref('Job Title')
@@ -418,7 +441,6 @@
                                     }
                                 })
                                 .then(data => {
-                                    console.log(data)
                                     jobTitle.value = {}
                                     allJobTitles()
                                 })
@@ -445,12 +467,13 @@
                         }
                     }
                 }
-                const EMPLOYEE = {
+                const Employee = {
                     template: '#employee',
                     setup() {
                         const title = ref('Employee')
                         //const employees = ref([])
-                        const employee = ref({employeeHistory: {}, employeeDocuments: [{}]})
+                        //const employee = ref({employeeHistory: {}, employeeDocuments: [{}]})
+                        const employee = ref({employeeHistory: {}})
                         const e = ref(null)
                         //usage of dept store
                         const deptStore = departmentStore();
@@ -482,9 +505,6 @@
                                     console.log(byteArray);
                                 })
                                 .catch(e => console.error(e))
-
-
-
                         }
                         const saveEmployee = () => {
                             //adjust employeeHistory entity
@@ -540,7 +560,7 @@
                         }
                     }
                 }
-                const EMPLOYEE_HISTORY = {
+                const EmployeeHistory = {
                     template: '#employee__history',
                     setup() {
                         const title = ref('Employee History')
@@ -572,8 +592,8 @@
                         }
                     }
                 }
-                const EMPLOYEE_DOCUMENTS = {template: `<p>Employee Documents</p>`}
-                const tabs = {HOME, DEPARTMENT, JOB_TITLE, EMPLOYEE, EMPLOYEE_HISTORY, EMPLOYEE_DOCUMENTS}
+                const EmployeeDocuments = {template: `<p>Employee Documents</p>`}
+                const tabs = { Home, Department, JobTitle, Employee, EmployeeHistory, EmployeeDocuments }
                 return {
                     message, currentTab, tabs
                 }
