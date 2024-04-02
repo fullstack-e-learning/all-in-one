@@ -81,7 +81,7 @@ jobs:
     - name: Publish maven artifact to GitHub Packages
       run: |
         #./mvnw -B native:compile
-        
+        ./mvnw -B build-helper:parse-version versions:set -DnewVersion=v1.0.${{github.run_number}}
         ./mvnw -B deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
