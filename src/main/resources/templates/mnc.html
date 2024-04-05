@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>all-in-one::emp-management</title>
+    <title>all-in-one</title>
     <style>
         body {
             margin-left: auto;
             margin-right: auto;
             margin-top: 10px;
             width: 80%;
+            font-family: "Times New Roman" , sans-serif;
         }
         .demo {
             font-family: sans-serif;
@@ -45,25 +46,52 @@
         button.tab-button {
             height: 40px;
         }
-        table, th, td {
-            border: 1px solid black;
+        table {
+            width: 100%;
             border-collapse: collapse;
+            border-spacing: 0;
+        }
+        tr {
+            height: 50px;
+            padding: auto;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #dddddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
         }
         * {
             margin-top: 5px;
             margin-bottom: 5px;
         }
+
         div.parent {
             display: flex;
         }
         div.children-right {
             margin-left: 20px;
         }
+        input, select, button {
+            height: 30px;
+        }
+        caption {
+            caption-side: top;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
     <div id="app">
        <h1>{{ message }}</h1>
+        <a href="/">Dashboard</a>
         <div class="demo">
             <button v-for="(_, tab) in tabs"
                     :key="tab"
@@ -79,7 +107,6 @@
     </div>
 
     <template id="department">
-        <strong>{{ title }}</strong>
         <p style="color: red;">{{ e }}</p>
 
         <div id="department__form">
@@ -99,6 +126,7 @@
         <div id="department__table">
             <p v-if="departments.length == 0">No data found</p>
             <table v-else>
+                <caption>all {{ title }}</caption>
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -119,7 +147,6 @@
         </div>
     </template>
     <template id="job_title">
-        <strong>{{ title }}</strong>
         <p style="color: red">{{ e }}</p>
         <form @submit.prevent="submitJobTitle">
             <fieldset>
@@ -140,6 +167,7 @@
         <hr/>
         <p v-if="jobTitles.length === 0">No data found!</p>
         <table v-else>
+            <caption>all {{ title }}</caption>
             <thead>
                 <tr>
                     <th>Id</th>
@@ -163,7 +191,6 @@
         </table>
     </template>
     <template id="employee">
-        <strong>{{ title }}</strong>
         <p style="color: red">{{ e }}</p>
 
         <form @submit.prevent="saveEmployee">
@@ -221,7 +248,7 @@
                     </div>
                     <div class="children-right">
                         <label>Salary</label><br/>
-                        <input type="number" v-model="employee.salary"/>
+                        <input type="number" v-model="employee.salary" :disabled="salary.disable" :min="salary.min" :max="salary.max"/>
                     </div>
                 </div>
 <!--                <hr/>-->
@@ -238,6 +265,7 @@
         <hr/>
         <p v-if="employees.length === 0">No data found!</p>
         <table v-else>
+            <caption>all {{ title }}</caption>
             <thead>
                 <tr>
                     <th v-for="k in Object.keys(employees[0])">{{k}}</th>
@@ -277,7 +305,7 @@
     <!-- pinia-->
 
     <script>
-        const {createApp, ref, onMounted, computed} = Vue
+        const {createApp, ref, onMounted, computed, watch} = Vue
         const { createPinia, defineStore, storeToRefs } = Pinia
         const pinia = createPinia()
         const apiHost = 'http://localhost:8080'
@@ -348,7 +376,7 @@
         //vue app
         createApp({
             setup() {
-                const message = ref('emp mgmt')
+                const message = ref('Employee Management!')
                 const currentTab = ref('Employee')
                 const Home = {template: `<p>Home</p>`}
                 const Department = {
@@ -475,6 +503,9 @@
                         //const employee = ref({employeeHistory: {}, employeeDocuments: [{}]})
                         const employee = ref({employeeHistory: {}})
                         const e = ref(null)
+
+                        const salary = ref({ disable: true, min: 0, max: 0})
+
                         //usage of dept store
                         const deptStore = departmentStore();
                         const { allDepartments } = deptStore;
@@ -537,16 +568,13 @@
                                 .catch(err => e.value = err)
 
                         }
-                        /*const allEmployee = () => {
-                            fetch(`${apiHost}/db/employee`)
-                                .then(r => {
-                                    if(!r.ok)
-                                        throw new Error("Employee fetch error")
-                                    return r.json()
-                                })
-                                .then(data => employees.value = data)
-                                .catch(err => e.value = err)
-                        }*/
+
+                        watch(() => employee.value.jobId, (newVal, oldVal) => {
+                            if(newVal) {
+                                const jt = jobTitles.value.find(jt => jt.jobId === newVal)
+                                salary.value = { disable: false, min: jt.minSalary, max: jt.maxSalary}
+                            }
+                        })
 
                         onMounted(() => {
                             console.log('EMPLOYEE mounted')
@@ -556,7 +584,7 @@
                         })
 
                         return {
-                            title, employees, employee, e, saveEmployee, departments, jobTitles, allEmployee, handleFileChange
+                            title, employees, employee, e, saveEmployee, departments, jobTitles, allEmployee, handleFileChange, salary
                         }
                     }
                 }
