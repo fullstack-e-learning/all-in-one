@@ -319,6 +319,7 @@
                         if (!r.ok) {
                             throw new Error(`HTTP error! Status: ${r.status}`);
                         } else {
+                            r.headers.forEach(h => console.log(h))
                             return r.json();
                         }
                     })
@@ -358,7 +359,7 @@
                         return r.json()
                     })
                     .then(data => employees.value = data)
-                    .catch(err => e.value = err)
+                    .catch(err => err.value = err)
             }
             return {
                 employees, employeeNames, allEmployee
