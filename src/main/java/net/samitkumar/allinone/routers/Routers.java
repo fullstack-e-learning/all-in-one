@@ -4,9 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import net.samitkumar.allinone.handlers.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -69,23 +73,10 @@ public class Routers {
                         .GET("/all", fileHandler::allFiles)
                         //TODO implement DELETE
                 )
-                /*.filter((request, next) -> {
-                    return next.handle(request)
-                            .flatMap(response -> {
-                                try {
-                                    var hostName = InetAddress.getLocalHost().getHostName();
-                                    return ServerResponse.from(response).header("Host",hostName).build();
-                                } catch (UnknownHostException e) {
-                                    return ServerResponse.from(response).build();
-                                }
-                            });
-                })*/
                 .after((request, response) -> {
                     log.info("{} {} {}", request.method(), request.path(), response.statusCode());
                     return response;
                 })
                 .build();
     }
-
-
 }

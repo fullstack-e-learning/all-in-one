@@ -1,5 +1,13 @@
 
 spring:
+#  security:
+#    user:
+#      password: password
+#      name: admin
+#      roles:
+#        - ADMIN
+#        - READ
+#        - WRITE
   application:
     name: @project.name@
     album:

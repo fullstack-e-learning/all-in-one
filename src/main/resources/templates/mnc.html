@@ -105,7 +105,13 @@
             </div>
         </div>
     </div>
-
+    <template id="home">
+        <div style="text-align: justify">
+            <p>Total Department : {{ totalDepartment }}</p>
+            <p>Total Job Title : {{ totalJobTitle }}</p>
+            <p>Total Employee : {{ totalEmployee }}</p>
+        </div>
+    </template>
     <template id="department">
         <p style="color: red;">{{ e }}</p>
 
@@ -279,7 +285,6 @@
         </table>
     </template>
     <template id="employee__history">
-        <strong>{{ title }}</strong>
         <p style="color: red">{{ e }}</p>
 
         <hr/>
@@ -328,7 +333,6 @@
             }
             return { departments, allDepartments }
         })
-
         const jobTitleStore = defineStore('jobTitle', () => {
             const jobTitles = ref([])
             const allJobTitle = () => {
@@ -378,8 +382,19 @@
         createApp({
             setup() {
                 const message = ref('Employee Management!')
-                const currentTab = ref('Employee')
-                const Home = {template: `<p>Home</p>`}
+                const currentTab = ref('Home')
+                const Home = {
+                    template: '#home',
+                    setup() {
+                        const totalDepartment = ref(0)
+                        const totalJobTitle = ref(0)
+                        const totalEmployee = ref(0)
+
+                        return {
+                            totalDepartment, totalJobTitle, totalEmployee
+                        }
+                    }
+                }
                 const Department = {
                     template: '#department',
                     setup() {
