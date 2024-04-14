@@ -199,7 +199,7 @@
     <template id="employee">
         <p style="color: red">{{ e }}</p>
 
-        <form @submit.prevent="saveEmployee">
+        <form @submit.prevent="employeeFormData">
             <fieldset>
                 <legend>Create Employee:</legend>
                 <div class="parent">
@@ -234,7 +234,7 @@
                     </div>
                     <div class="children-right">
                         <label>Start Date <span style="color: gray">(Employee History)</span></label><br/>
-                        <input type="date" v-model="employee.employeeHistory.startDate"/>
+                        <input type="date" v-model="employee.startDate"/>
                     </div>
                 </div>
                 <div class="parent">
@@ -254,15 +254,16 @@
                     </div>
                     <div class="children-right">
                         <label>Salary</label><br/>
-                        <input type="number" v-model="employee.salary" :disabled="salary.disable" :min="salary.min" :max="salary.max"/>
+                        <input type="number" v-model="employee.salary" :disabled="salary.disable" :min="salary.min" :max="salary.max"/> <br/>
+                        <span style="color: gray" v-if="!salary.disable">Min: {{salary.min}}, Max: {{ salary.max}}</span>
                     </div>
                 </div>
-<!--                <hr/>-->
-<!--                <label>Document Name <span style="color: gray">Employee Documents</span></label><br/>-->
-<!--                <input type="text" v-model="employee.employeeDocuments[0].documentName" disabled />-->
-<!--                <br/>-->
-<!--                <label>Documents <span style="color: gray">Employee Documents</span></label><br/>-->
-<!--                <input type="file" v-on:change="handleFileChange" disabled/><br/>-->
+                <div class="parent">
+                    <div>
+                        <label>Employee Documents</label><br/>
+                        <input type="file" v-on:change="(e) => employee.employeeDocuments = e.target.files" multiple /><br/>
+                    </div>
+                </div>
                 <hr/>
                 <button type="submit">Ok</button>
                 <button type="reset">Reset</button>
@@ -274,12 +275,16 @@
             <caption>all {{ title }}</caption>
             <thead>
                 <tr>
-                    <th v-for="k in Object.keys(employees[0])">{{k}}</th>
+                    <template v-for="k in Object.keys(employees[0])" >
+                        <th v-if="k !== 'employeeHistory' && k !== 'employeeDocuments'">{{k}}</th>
+                    </template>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="e in employees">
-                    <td v-for="k in Object.keys(employees[0])">{{e[k]}}</td>
+                    <template v-for="k in Object.keys(employees[0])">
+                        <td v-if="k !== 'employeeHistory' && k !== 'employeeDocuments'">{{ e[k] }}</td>
+                    </template>
                 </tr>
             </tbody>
         </table>
@@ -298,6 +303,25 @@
             <tbody>
                 <tr v-for="eh in employeeHistories">
                     <td v-for="k in Object.keys(employeeHistories[0])">{{ eh[k] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+    <template id="employeeDocument">
+        <p>{{ e }}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>EmployeeId</th>
+                    <th>File Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="d in documents">
+                    <td>{{ d.documentId }}</td>
+                    <td>{{ d.employeeId }}</td>
+                    <td>{{ d.documentName }}</td>
                 </tr>
             </tbody>
         </table>
@@ -553,18 +577,17 @@
                                 })
                                 .catch(e => console.error(e))
                         }
+
                         const saveEmployee = () => {
                             //adjust employeeHistory entity
                             employee.value = {
                                 ...employee.value,
                                 employeeHistory : {
-                                    ...employee.value.employeeHistory,
+                                    startDate: employee.value.startDate,
                                     jobId: employee.value.jobId,
                                     departmentId: employee.value.departmentId
                                 }
                             }
-
-                            console.log(employee.value)
 
                             fetch(`${apiHost}/db/employee`,{
                                 method: 'POST',
@@ -577,12 +600,48 @@
                                     return r.json()
                                 })
                                 .then(data => {
-                                    console.log(data)
-                                    employee.value = {employeeHistory: {}, employeeDocuments: [{}]}
+                                    employee.value = {employeeHistory: {}}
+                                    salary.value = { disable: true, min: 0, max: 0}
                                     allEmployee()
                                 })
                                 .catch(err => e.value = err)
+                        }
 
+                        const employeeFormData = () => {
+                            const formdata = new FormData();
+                            formdata.append("firstName", employee.value.firstName);
+                            formdata.append("lastName", employee.value.lastName);
+                            formdata.append("email", employee.value.email);
+                            formdata.append("phoneNumber", employee.value.phoneNumber);
+                            formdata.append("hireDate", employee.value.hireDate);
+                            formdata.append("jobId", employee.value.jobId);
+                            formdata.append("salary", employee.value.salary);
+                            formdata.append("departmentId", employee.value.departmentId);
+                            formdata.append("startDate", employee.value.startDate);
+
+                            const files = employee.value.employeeDocuments
+
+                            if(files) {
+                                for (let i=0; i < files.length;i++) {
+                                    formdata.append("documents", files[i])
+                                }
+                            }
+
+                            fetch(`${apiHost}/db/employee/multipart`, {
+                                method: "POST",
+                                body: formdata
+                            })
+                                .then((response) => {
+                                    if(response.ok)
+                                        return response.json()
+                                    throw new Error("Error while persist")
+                                })
+                                .then((result) => {
+                                    employee.value = {employeeHistory: {}}
+                                    salary.value = { disable: true, min: 0, max: 0}
+                                    allEmployee()
+                                })
+                                .catch((error) => e.value = error);
                         }
 
                         watch(() => employee.value.jobId, (newVal, oldVal) => {
@@ -600,7 +659,7 @@
                         })
 
                         return {
-                            title, employees, employee, e, saveEmployee, departments, jobTitles, allEmployee, handleFileChange, salary
+                            title, employees, employee, e, saveEmployee, departments, jobTitles, allEmployee, handleFileChange, salary, employeeFormData
                         }
                     }
                 }
@@ -636,7 +695,28 @@
                         }
                     }
                 }
-                const EmployeeDocuments = {template: `<p>Employee Documents</p>`}
+                const EmployeeDocuments = {
+                    template: '#employeeDocument',
+                    setup(){
+                        const documents = ref([]);
+                        const document = ref([]);
+                        const e = ref(null)
+                        const all = () => {
+                            fetch(`${apiHost}/db/employee/documents`)
+                                .then(response => {
+                                    if(response.ok)
+                                        return response.json()
+                                    throw new Error("Error while fetching data")
+                                }).then(data => documents.value = data)
+                        }
+                        onMounted(()=>{
+                            all()
+                        })
+                        return{
+                            document, documents, e
+                        }
+                    }
+                }
                 const tabs = { Home, Department, JobTitle, Employee, EmployeeHistory, EmployeeDocuments }
                 return {
                     message, currentTab, tabs

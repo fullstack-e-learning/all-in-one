@@ -4,16 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import net.samitkumar.allinone.handlers.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.reactive.config.EnableWebFlux;
-import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Mono;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 
 @Configuration
@@ -62,6 +55,7 @@ public class Routers {
                                 .GET("", employeeHandler::allEmployee)
                                 .GET("/{id}", employeeHandler::employeeById)
                                 .POST("", employeeHandler::newEmployee)
+                                .POST("/multipart", employeeHandler::multipartNewEmployee)
                                 .PUT("/{id}", employeeHandler::updateEmployee)
                                 .DELETE("/{id}", employeeHandler::deleteEmployee)
                         )

@@ -11,6 +11,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import reactor.core.publisher.Mono;
 
 @SpringBootApplication
+//@EnableWebFluxSecurity
 public class AllInOneApplication {
 
 	public static void main(String[] args) {
@@ -29,6 +30,12 @@ public class AllInOneApplication {
 
 		return new CorsWebFilter(source);
 	}
+
+	/*@Bean
+	public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) throws Exception {
+		http.csrf(ServerHttpSecurity.CsrfSpec::disable);
+		return http.build();
+	}*/
 }
 
 @Controller
