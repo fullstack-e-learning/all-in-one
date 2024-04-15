@@ -1,8 +1,16 @@
 package net.samitkumar.allinone;
 
+import lombok.SneakyThrows;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.cors.CorsConfiguration;
@@ -24,18 +32,22 @@ public class AllInOneApplication {
 		config.addAllowedOriginPattern("*");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
-
+		config.setAllowCredentials(true);
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", config);
 
 		return new CorsWebFilter(source);
 	}
 
-	/*@Bean
-	public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) throws Exception {
-		http.csrf(ServerHttpSecurity.CsrfSpec::disable);
+	@Bean
+	@SneakyThrows
+	public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+		http
+				.authorizeExchange(exchange -> exchange.anyExchange().authenticated())
+				.formLogin(Customizer.withDefaults())
+				.csrf(csrfSpec -> csrfSpec.csrfTokenRepository(new CookieServerCsrfTokenRepository()));
 		return http.build();
-	}*/
+	}
 }
 
 @Controller

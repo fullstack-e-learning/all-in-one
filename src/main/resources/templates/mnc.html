@@ -430,6 +430,7 @@
                         const saveDepartment = () => {
                             fetch(`${apiHost}/db/department`, {
                                 method: 'POST',
+                                credentials: 'same-origin',
                                 headers: {
                                     "Content-Type": "application/json",
                                 },
@@ -450,6 +451,7 @@
                         }
 
                         const allDepartment = () => {
+                            console.log(`cookie ${document.cookie}`)
                             fetch(`${apiHost}/db/department`)
                                 .then(r => {
                                     if (!r.ok) {
@@ -543,7 +545,6 @@
                         //const employee = ref({employeeHistory: {}, employeeDocuments: [{}]})
                         const employee = ref({employeeHistory: {}})
                         const e = ref(null)
-
                         const salary = ref({ disable: true, min: 0, max: 0})
 
                         //usage of dept store
