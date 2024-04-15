@@ -21,6 +21,10 @@ spring:
     username: ${DB_USERNAME:fake}
     password: ${DB_PASSWORD:fake}
     url: ${DB_HOST:jdbc:postgresql://localhost:5740/database}
+  flyway:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
   mvc:
     problemdetails:
       enabled: true

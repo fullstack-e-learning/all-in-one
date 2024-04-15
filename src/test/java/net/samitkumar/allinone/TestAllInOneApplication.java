@@ -13,8 +13,8 @@ public class TestAllInOneApplication {
 	@Bean
 	@ServiceConnection
 	PostgreSQLContainer<?> postgresContainer() {
-		return new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
-				.withInitScript("db/schema.sql");
+		return new PostgreSQLContainer<>(DockerImageName.parse("postgres:15"));
+				//.withInitScript("db/migration/V1__schema.sql");
 	}
 
 	public static void main(String[] args) {

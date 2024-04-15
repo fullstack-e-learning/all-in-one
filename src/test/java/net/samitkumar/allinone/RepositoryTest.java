@@ -6,12 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
-import java.nio.ByteBuffer;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest
+@SpringBootTest(properties = "spring.flyway.enabled=false")
 @Testcontainers
 public class RepositoryTest {
 
@@ -41,10 +40,10 @@ public class RepositoryTest {
 
     @Container
     @ServiceConnection
-    final static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(PostgreSQLContainer.IMAGE)
+    final static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15"))
 //			.withCommand("postgres -c max_connections=42")
 //			.withCommand()
-			.withInitScript("db/schema.sql");
+			.withInitScript("db/migration/V1__schema.sql");
 
     @Test
     void entityTest() {

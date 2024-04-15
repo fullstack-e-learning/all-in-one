@@ -7,6 +7,7 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest
 @Testcontainers
@@ -14,8 +15,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class AllInOneApplicationTests {
 	@Container
 	@ServiceConnection
-	final static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(PostgreSQLContainer.IMAGE)
-			.withInitScript("db/schema.sql");
+	final static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15"));
+			//.withInitScript("db/migration/V1__schema.sql");
 
 	@Test
 	void contextLoads() {

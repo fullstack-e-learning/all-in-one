@@ -13,18 +13,19 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringBootTest
+@SpringBootTest(properties = "spring.flyway.enabled=false")
 @Testcontainers
 @AutoConfigureWebTestClient
 public class EmployeeHistoryRouterTest {
 
     @Container
     @ServiceConnection
-    final static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(PostgreSQLContainer.IMAGE)
-            .withInitScript("db/schema.sql");
+    final static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15"))
+            .withInitScript("db/migration/V1__schema.sql");
 
 
     @Autowired
