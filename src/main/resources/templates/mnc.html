@@ -433,6 +433,7 @@
                                 credentials: 'same-origin',
                                 headers: {
                                     "Content-Type": "application/json",
+                                    "X-XSRF-TOKEN" : getXSRFToken()
                                 },
                                 body: JSON.stringify(department.value)
                             })
@@ -450,6 +451,13 @@
                                 .catch(err => e.value = err)
                         }
 
+                        const getXSRFToken = () => {
+                            if(document.cookie) {
+                                return document.cookie.split(";")[0].split("=")[1]
+                            } else {
+                                return "UNKNOWN"
+                            }
+                        }
                         const allDepartment = () => {
                             console.log(`cookie ${document.cookie}`)
                             fetch(`${apiHost}/db/department`)

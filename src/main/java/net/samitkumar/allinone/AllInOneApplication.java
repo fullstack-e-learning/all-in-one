@@ -45,7 +45,8 @@ public class AllInOneApplication {
 		http
 				.authorizeExchange(exchange -> exchange.anyExchange().authenticated())
 				.formLogin(Customizer.withDefaults())
-				.csrf(csrfSpec -> csrfSpec.csrfTokenRepository(new CookieServerCsrfTokenRepository()));
+				//.csrf(csrfSpec -> csrfSpec.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse()))
+				.csrf(csrfSpec -> csrfSpec.csrfTokenRequestHandler((exchange, csrfToken) -> csrfToken));
 		return http.build();
 	}
 }
