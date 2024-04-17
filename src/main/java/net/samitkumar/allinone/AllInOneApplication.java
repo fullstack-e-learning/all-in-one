@@ -10,7 +10,10 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authorization.HttpStatusServerAccessDeniedHandler;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
+import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.cors.CorsConfiguration;
@@ -19,7 +22,8 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import reactor.core.publisher.Mono;
 
 @SpringBootApplication
-//@EnableWebFluxSecurity
+@EnableWebFluxSecurity
+@Controller
 public class AllInOneApplication {
 
 	public static void main(String[] args) {
@@ -45,18 +49,17 @@ public class AllInOneApplication {
 		http
 				.authorizeExchange(exchange -> exchange.anyExchange().authenticated())
 				.formLogin(Customizer.withDefaults())
-				//.csrf(csrfSpec -> csrfSpec.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse()))
-				.csrf(csrfSpec -> csrfSpec.csrfTokenRequestHandler((exchange, csrfToken) -> csrfToken));
+				.csrf(csrfSpec -> csrfSpec.disable())
+		//.csrf(csrfSpec -> csrfSpec.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse()))
+		;
 		return http.build();
 	}
-}
 
-@Controller
-class ApplicationController {
 	@GetMapping("/")
 	public Mono<String> index() {
 		return Mono.just("index");
 	}
+
 	@GetMapping("/album")
 	public Mono<String> album() {
 		return Mono.just("album");
@@ -66,3 +69,9 @@ class ApplicationController {
 		return Mono.just("mnc");
 	}
 }
+
+//@Controller
+//class ApplicationController {
+//
+//
+//}
