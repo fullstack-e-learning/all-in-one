@@ -1,5 +1,6 @@
 package net.samitkumar.allinone.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.annotation.ReadOnlyProperty;
@@ -25,7 +26,7 @@ public record Employee(
         Integer departmentId,
         @MappedCollection(idColumn = "employee_id") EmployeeHistory employeeHistory,
         @MappedCollection(idColumn = "employee_id") Set<EmployeeDocument> employeeDocuments,
-        @Transient Object extraProperty) {
+        @JsonIgnore @Transient Object extraProperty) {
     @PersistenceCreator
     public Employee(Integer employeeId, String firstName, String lastName, String email, String phoneNumber, LocalDate hireDate, Integer jobId, Double salary, Integer managerId, Integer departmentId, EmployeeHistory employeeHistory, Set<EmployeeDocument> employeeDocuments) {
         this(employeeId, firstName, lastName, email, phoneNumber, hireDate, jobId, salary, managerId, departmentId, employeeHistory, employeeDocuments, null);

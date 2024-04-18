@@ -337,7 +337,7 @@
         const {createApp, ref, onMounted, computed, watch} = Vue
         const { createPinia, defineStore, storeToRefs } = Pinia
         const pinia = createPinia()
-        const apiHost = 'http://localhost:8080'
+        const apiHost = ''
 
         //store
         const departmentStore = defineStore('department', () => {
@@ -432,8 +432,7 @@
                                 method: 'POST',
                                 credentials: 'same-origin',
                                 headers: {
-                                    "Content-Type": "application/json",
-                                    "X-XSRF-TOKEN" : getXSRFToken()
+                                    "Content-Type": "application/json"
                                 },
                                 body: JSON.stringify(department.value)
                             })
@@ -451,13 +450,6 @@
                                 .catch(err => e.value = err)
                         }
 
-                        const getXSRFToken = () => {
-                            if(document.cookie) {
-                                return document.cookie.split(";")[0].split("=")[1]
-                            } else {
-                                return "UNKNOWN"
-                            }
-                        }
                         const allDepartment = () => {
                             console.log(`cookie ${document.cookie}`)
                             fetch(`${apiHost}/db/department`)
