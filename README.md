@@ -1,5 +1,7 @@
 # all-in-one-api
 
+Inspired from spring security [csrf](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html#csrf-components) token usage guide
+
 Build & Run a Jar file
 ```shell
 ./mvnw clean install

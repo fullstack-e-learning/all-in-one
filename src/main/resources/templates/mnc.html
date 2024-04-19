@@ -337,7 +337,7 @@
         const {createApp, ref, onMounted, computed, watch} = Vue
         const { createPinia, defineStore, storeToRefs } = Pinia
         const pinia = createPinia()
-        const apiHost = 'http://localhost:8080'
+        const apiHost = ''
 
         //store
         const departmentStore = defineStore('department', () => {
@@ -430,8 +430,9 @@
                         const saveDepartment = () => {
                             fetch(`${apiHost}/db/department`, {
                                 method: 'POST',
+                                credentials: 'same-origin',
                                 headers: {
-                                    "Content-Type": "application/json",
+                                    "Content-Type": "application/json"
                                 },
                                 body: JSON.stringify(department.value)
                             })
@@ -450,6 +451,7 @@
                         }
 
                         const allDepartment = () => {
+                            console.log(`cookie ${document.cookie}`)
                             fetch(`${apiHost}/db/department`)
                                 .then(r => {
                                     if (!r.ok) {
@@ -543,7 +545,6 @@
                         //const employee = ref({employeeHistory: {}, employeeDocuments: [{}]})
                         const employee = ref({employeeHistory: {}})
                         const e = ref(null)
-
                         const salary = ref({ disable: true, min: 0, max: 0})
 
                         //usage of dept store
