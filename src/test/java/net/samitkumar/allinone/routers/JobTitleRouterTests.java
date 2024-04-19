@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @SpringBootTest(properties = "spring.flyway.enabled=false")
 @Testcontainers
 @AutoConfigureWebTestClient
+@WithMockUser
 class JobTitleRouterTests {
 	@Container
 	@ServiceConnection

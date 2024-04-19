@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @SpringBootTest(properties = "spring.flyway.enabled=false")
 @Testcontainers
 @AutoConfigureWebTestClient
+@WithMockUser
 public class EmployeeHistoryRouterTest {
 
     @Container
