@@ -1,0 +1,434 @@
+2024-04-21T21:03:12.385+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.DepartmentRouterTests      : Starting DepartmentRouterTests using Java 21 with PID 16564 (started by samit in /home/samit/workspace/all-in-one)
+2024-04-21T21:03:12.387+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.DepartmentRouterTests      : No active profile set, falling back to 1 default profile: "default"
+2024-04-21T21:03:12.811+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-04-21T21:03:12.888+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 71 ms. Found 5 JDBC repository interfaces.
+2024-04-21T21:03:13.059+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-21T21:03:13.084+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5dacf18d
+2024-04-21T21:03:13.085+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-21T21:03:13.514+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-04-21T21:03:13.668+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.DepartmentRouterTests      : Started DepartmentRouterTests in 1.44 seconds (process running for 3.927)
+2024-04-21T21:03:14.276+02:00  INFO 16564 --- [all-in-one] [parallel-2] [662562f2c6474af6e3e4e8ced8ada742-6ce6bd24f5f2c145] n.samitkumar.allinone.routers.Routers    : GET /db/department 200 OK
+2024-04-21T21:03:14.363+02:00  INFO 16564 --- [all-in-one] [parallel-4] [662562f28d73b3e00c56b2adf1a19ea2-9f372f2fda041d82] n.samitkumar.allinone.routers.Routers    : POST /db/department 200 OK
+2024-04-21T21:03:14.388+02:00  INFO 16564 --- [all-in-one] [parallel-6] [662562f2e47a21dda2f374c947fb2ad2-d2e9c64ccf1d7204] n.samitkumar.allinone.routers.Routers    : GET /db/department/1 200 OK
+2024-04-21T21:03:14.403+02:00  INFO 16564 --- [all-in-one] [parallel-8] [662562f29335d8da3bf6bdc34a3945b1-45e8e61de745e1ac] n.samitkumar.allinone.routers.Routers    : PUT /db/department/1 200 OK
+2024-04-21T21:03:14.410+02:00  INFO 16564 --- [all-in-one] [parallel-10] [662562f2d1f7d4b1fabd4a620887c850-a6b3e2ae6e116177] n.samitkumar.allinone.routers.Routers    : GET /db/department 200 OK
+2024-04-21T21:03:14.425+02:00  INFO 16564 --- [all-in-one] [parallel-12] [662562f26e0d7c2eb1c3ac0dd221a683-6a33d2dc147c57cc] n.samitkumar.allinone.routers.Routers    : DELETE /db/department/1 200 OK
+2024-04-21T21:03:14.443+02:00 ERROR 16564 --- [all-in-one] [parallel-2] [662562f28c884d29bb5f3ab622848719-bb5f3ab622848719] a.w.r.e.AbstractErrorWebExceptionHandler : [45fa9a33]  500 Server Error for HTTP GET "/db/department/1"
+
+java.util.NoSuchElementException: No value present
+	at java.base/java.util.Optional.orElseThrow(Optional.java:377) ~[na:na]
+	Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: 
+Error has been observed at the following site(s):
+	*__checkpoint ⇢ org.springframework.web.cors.reactive.CorsWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ AuthorizationWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ ExceptionTranslationWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ LogoutWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ ServerRequestCacheWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ SecurityContextServerWebExchangeWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ LogoutPageGeneratingWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ LoginPageGeneratingWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ AuthenticationWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ ReactorContextWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ CsrfWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ HttpHeaderWriterWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ ServerWebExchangeReactorContextWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ org.springframework.security.web.server.WebFilterChainProxy [DefaultWebFilterChain]
+	*__checkpoint ⇢ org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers$MutatorFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ HTTP GET "/db/department/1" [ExceptionHandlingWebHandler]
+Original Stack Trace:
+		at java.base/java.util.Optional.orElseThrow(Optional.java:377) ~[na:na]
+		at net.samitkumar.allinone.handlers.DepartmentHandler.lambda$departmentById$0(DepartmentHandler.java:26) ~[classes/:na]
+		at reactor.core.publisher.MonoCallable.call(MonoCallable.java:72) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap.trySubscribeScalarMap(FluxFlatMap.java:128) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap.subscribeOrReturn(MonoFlatMap.java:53) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:63) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:165) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onNext(FluxOnErrorResume.java:79) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.innerNext(FluxConcatMapNoPrefetch.java:259) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMap$ConcatMapInner.onNext(FluxConcatMap.java:865) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onNext(ReactorContextTestExecutionListener.java:120) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.FluxMap$MapSubscriber.onNext(FluxMap.java:122) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapSubscriber.onNext(FluxMap.java:122) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.innerNext(FluxConcatMapNoPrefetch.java:259) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMap$ConcatMapInner.onNext(FluxConcatMap.java:865) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onNext(ReactorContextTestExecutionListener.java:120) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.innerNext(FluxConcatMapNoPrefetch.java:259) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMap$ConcatMapInner.onNext(FluxConcatMap.java:865) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onNext(ReactorContextTestExecutionListener.java:120) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.innerNext(FluxConcatMapNoPrefetch.java:259) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMap$ConcatMapInner.onNext(FluxConcatMap.java:865) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMap$WeakScalarSubscription.request(FluxConcatMap.java:480) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.request(Operators.java:2331) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.request(FluxConcatMapNoPrefetch.java:339) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.request(MonoNext.java:108) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.request(FluxPeek.java:138) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.request(Operators.java:2331) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.request(FluxConcatMapNoPrefetch.java:339) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.request(MonoNext.java:108) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.request(FluxPeek.java:138) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.request(Operators.java:2331) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.request(FluxConcatMapNoPrefetch.java:339) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.request(MonoNext.java:108) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapSubscriber.request(FluxMap.java:164) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.request(FluxPeek.java:138) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapSubscriber.request(FluxMap.java:164) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.request(Operators.java:2331) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.request(FluxConcatMapNoPrefetch.java:339) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.request(MonoNext.java:108) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.set(Operators.java:2367) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.onSubscribe(Operators.java:2241) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.onSubscribe(MonoNext.java:70) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.onSubscribe(FluxConcatMapNoPrefetch.java:164) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable.subscribe(FluxIterable.java:201) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable.subscribe(FluxIterable.java:83) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:76) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:53) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:76) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:53) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:76) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoContextWriteRestoringThreadLocals.subscribe(MonoContextWriteRestoringThreadLocals.java:44) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:76) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoDeferContextual.subscribe(MonoDeferContextual.java:55) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:53) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Mono.subscribe(Mono.java:4563) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onComplete(FluxSwitchIfEmpty.java:82) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onComplete(MonoPeekTerminal.java:299) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onComplete(MonoPeekTerminal.java:299) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:155) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.onNext(FluxFilter.java:113) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onNext(MonoPeekTerminal.java:180) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeekFuseable$PeekFuseableConditionalSubscriber.onNext(FluxPeekFuseable.java:503) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onNext(MonoPeekTerminal.java:180) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxDefaultIfEmpty$DefaultIfEmptySubscriber.onNext(FluxDefaultIfEmpty.java:122) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.innerNext(FluxConcatMapNoPrefetch.java:259) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMap$ConcatMapInner.onNext(FluxConcatMap.java:865) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$FuseableContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:190) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$FuseableContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:190) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onNext(ReactorContextTestExecutionListener.java:120) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.secondComplete(MonoFlatMap.java:245) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapInner.onNext(MonoFlatMap.java:305) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxDefaultIfEmpty$DefaultIfEmptySubscriber.onNext(FluxDefaultIfEmpty.java:122) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onNext(FluxMapFuseable.java:129) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableSubscriber.onNext(FluxFilterFuseable.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableConditionalSubscriber.onNext(FluxMapFuseable.java:299) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableConditionalSubscriber.onNext(FluxMapFuseable.java:299) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableConditionalSubscriber.onNext(FluxFilterFuseable.java:337) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:158) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.onNext(FluxFilter.java:113) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapConditionalSubscriber.onNext(FluxMap.java:224) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2571) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapConditionalSubscriber.request(FluxMap.java:295) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.request(FluxFilter.java:186) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.request(MonoFlatMap.java:194) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableConditionalSubscriber.request(FluxFilterFuseable.java:411) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableConditionalSubscriber.request(FluxMapFuseable.java:360) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableConditionalSubscriber.request(FluxMapFuseable.java:360) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableSubscriber.request(FluxFilterFuseable.java:191) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.request(FluxMapFuseable.java:171) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxDefaultIfEmpty$DefaultIfEmptySubscriber.request(FluxDefaultIfEmpty.java:98) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapInner.onSubscribe(MonoFlatMap.java:291) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$BaseFluxToMonoOperator.onSubscribe(Operators.java:2051) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onSubscribe(FluxMapFuseable.java:96) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableSubscriber.onSubscribe(FluxFilterFuseable.java:87) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableConditionalSubscriber.onSubscribe(FluxMapFuseable.java:265) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableConditionalSubscriber.onSubscribe(FluxMapFuseable.java:265) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableConditionalSubscriber.onSubscribe(FluxFilterFuseable.java:305) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onSubscribe(MonoFlatMap.java:117) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.onSubscribe(FluxFilter.java:85) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapConditionalSubscriber.onSubscribe(FluxMap.java:194) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoJust.subscribe(MonoJust.java:55) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoDeferContextual.subscribe(MonoDeferContextual.java:55) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:76) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:165) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onNext(FluxMapFuseable.java:129) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableSubscriber.onNext(FluxFilterFuseable.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2571) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableSubscriber.request(FluxFilterFuseable.java:191) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.request(FluxMapFuseable.java:171) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.request(MonoFlatMap.java:194) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.set(Operators.java:2367) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.onSubscribe(Operators.java:2241) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onSubscribe(FluxContextWriteRestoringThreadLocals.java:104) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onSubscribe(FluxContextWriteRestoringThreadLocals.java:104) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onSubscribe(ReactorContextTestExecutionListener.java:115) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onSubscribe(MonoFlatMap.java:117) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onSubscribe(FluxMapFuseable.java:96) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableSubscriber.onSubscribe(FluxFilterFuseable.java:87) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoJust.subscribe(MonoJust.java:55) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Mono.subscribe(Mono.java:4563) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.onNext(FluxConcatMapNoPrefetch.java:207) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable$IterableSubscription.slowPath(FluxIterable.java:335) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable$IterableSubscription.request(FluxIterable.java:294) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.innerComplete(FluxConcatMapNoPrefetch.java:275) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMap$ConcatMapInner.onComplete(FluxConcatMap.java:889) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onComplete(FluxContextWriteRestoringThreadLocals.java:149) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onComplete(FluxContextWriteRestoringThreadLocals.java:149) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onComplete(ReactorContextTestExecutionListener.java:130) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onComplete(MonoFlatMap.java:189) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapSubscriber.onComplete(FluxMap.java:144) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.onComplete(FluxFilter.java:166) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeekFuseable$PeekConditionalSubscriber.onComplete(FluxPeekFuseable.java:940) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onComplete(FluxSwitchIfEmpty.java:85) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onComplete(FluxContextWriteRestoringThreadLocals.java:149) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onComplete(FluxContextWriteRestoringThreadLocals.java:149) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onComplete(ReactorContextTestExecutionListener.java:130) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2573) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.set(Operators.java:2367) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.onSubscribe(Operators.java:2241) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onSubscribe(FluxContextWriteRestoringThreadLocals.java:104) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onSubscribe(FluxContextWriteRestoringThreadLocals.java:104) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onSubscribe(ReactorContextTestExecutionListener.java:115) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.MonoJust.subscribe(MonoJust.java:55) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Mono.subscribe(Mono.java:4563) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onComplete(FluxSwitchIfEmpty.java:82) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.onComplete(MonoNext.java:102) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.onComplete(FluxFilter.java:166) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap$FlatMapMain.checkTerminated(FluxFlatMap.java:850) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap$FlatMapMain.drainLoop(FluxFlatMap.java:612) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap$FlatMapMain.drain(FluxFlatMap.java:592) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap$FlatMapMain.request(FluxFlatMap.java:349) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.request(FluxFilter.java:186) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.request(MonoNext.java:108) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.request(Operators.java:2331) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeekFuseable$PeekConditionalSubscriber.request(FluxPeekFuseable.java:783) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.request(FluxFilter.java:186) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapSubscriber.request(FluxMap.java:164) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.request(MonoFlatMap.java:194) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.request(Operators.java:2331) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.request(FluxConcatMapNoPrefetch.java:339) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.request(MonoNext.java:108) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxDefaultIfEmpty$DefaultIfEmptySubscriber.request(FluxDefaultIfEmpty.java:98) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.request(MonoPeekTerminal.java:139) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeekFuseable$PeekFuseableConditionalSubscriber.request(FluxPeekFuseable.java:437) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.request(MonoPeekTerminal.java:139) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.request(FluxFilter.java:186) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.set(Operators.java:2367) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.onSubscribe(Operators.java:2241) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.onSubscribe(FluxFilter.java:85) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onSubscribe(MonoPeekTerminal.java:152) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeekFuseable$PeekFuseableConditionalSubscriber.onSubscribe(FluxPeekFuseable.java:471) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onSubscribe(MonoPeekTerminal.java:152) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$BaseFluxToMonoOperator.onSubscribe(Operators.java:2051) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.onSubscribe(MonoNext.java:70) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.onSubscribe(FluxConcatMapNoPrefetch.java:164) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable.subscribe(FluxIterable.java:201) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable.subscribe(FluxIterable.java:83) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:76) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoDeferContextual.subscribe(MonoDeferContextual.java:55) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:76) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:53) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:76) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:53) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Mono.subscribe(Mono.java:4563) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoIgnoreThen$ThenIgnoreMain.subscribeNext(MonoIgnoreThen.java:265) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoIgnoreThen.subscribe(MonoIgnoreThen.java:51) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Mono.subscribe(Mono.java:4563) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onComplete(FluxSwitchIfEmpty.java:82) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.onComplete(FluxFilter.java:166) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeekFuseable$PeekConditionalSubscriber.onComplete(FluxPeekFuseable.java:940) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onComplete(FluxSwitchIfEmpty.java:85) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onComplete(FluxContextWriteRestoringThreadLocals.java:149) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onComplete(FluxContextWriteRestoringThreadLocals.java:149) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onComplete(ReactorContextTestExecutionListener.java:130) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2573) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.request(FluxContextWriteRestoringThreadLocals.java:163) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.set(Operators.java:2367) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.onSubscribe(Operators.java:2241) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onSubscribe(FluxContextWriteRestoringThreadLocals.java:104) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onSubscribe(FluxContextWriteRestoringThreadLocals.java:104) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onSubscribe(ReactorContextTestExecutionListener.java:115) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.MonoJust.subscribe(MonoJust.java:55) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Mono.subscribe(Mono.java:4563) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onComplete(FluxSwitchIfEmpty.java:82) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoNext$NextSubscriber.onComplete(MonoNext.java:102) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.onComplete(FluxFilter.java:166) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap$FlatMapMain.checkTerminated(FluxFlatMap.java:850) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap$FlatMapMain.drainLoop(FluxFlatMap.java:612) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap$FlatMapMain.drain(FluxFlatMap.java:592) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap$FlatMapMain.onComplete(FluxFlatMap.java:469) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeekFuseable$PeekFuseableSubscriber.onComplete(FluxPeekFuseable.java:277) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable$IterableSubscription.slowPath(FluxIterable.java:357) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable$IterableSubscription.request(FluxIterable.java:294) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeekFuseable$PeekFuseableSubscriber.request(FluxPeekFuseable.java:144) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFlatMap$FlatMapMain.onSubscribe(FluxFlatMap.java:373) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeekFuseable$PeekFuseableSubscriber.onSubscribe(FluxPeekFuseable.java:178) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable.subscribe(FluxIterable.java:201) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxIterable.subscribe(FluxIterable.java:83) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:76) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:53) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:165) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$BaseFluxToMonoOperator.completePossiblyEmpty(Operators.java:2097) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxDefaultIfEmpty$DefaultIfEmptySubscriber.onComplete(FluxDefaultIfEmpty.java:134) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapSubscriber.onComplete(FluxMap.java:144) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapSubscriber.onComplete(FluxMap.java:144) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxFilter$FilterSubscriber.onComplete(FluxFilter.java:166) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxMap$MapConditionalSubscriber.onComplete(FluxMap.java:275) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1866) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoCacheTime$CoordinatorSubscriber.signalCached(MonoCacheTime.java:337) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoCacheTime$CoordinatorSubscriber.onNext(MonoCacheTime.java:354) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$FuseableContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:190) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$ContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:118) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.FluxContextWriteRestoringThreadLocals$FuseableContextWriteRestoringThreadLocalsSubscriber.onNext(FluxContextWriteRestoringThreadLocals.java:190) ~[reactor-core-3.6.3.jar:3.6.3]
+		at org.springframework.security.test.context.support.ReactorContextTestExecutionListener$DelegateTestExecutionListener$SecuritySubContext.onNext(ReactorContextTestExecutionListener.java:120) ~[spring-security-test-6.2.2.jar:6.2.2]
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onNext(MonoPeekTerminal.java:180) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.publisher.MonoPublishOn$PublishOnSubscriber.run(MonoPublishOn.java:181) ~[reactor-core-3.6.3.jar:3.6.3]
+		at io.micrometer.context.ContextSnapshot.lambda$wrap$0(ContextSnapshot.java:91) ~[context-propagation-1.1.1.jar:1.1.1]
+		at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:68) ~[reactor-core-3.6.3.jar:3.6.3]
+		at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:28) ~[reactor-core-3.6.3.jar:3.6.3]
+		at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+		at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304) ~[na:na]
+		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144) ~[na:na]
+		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[na:na]
+		at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2024-04-21T21:03:14.817+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [net.samitkumar.allinone.routers.EmployeeHistoryRouterTest]: EmployeeHistoryRouterTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-21T21:03:14.830+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration net.samitkumar.allinone.AllInOneApplication for test class net.samitkumar.allinone.routers.EmployeeHistoryRouterTest
+2024-04-21T21:03:14.834+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Creating container for image: postgres:15
+2024-04-21T21:03:14.854+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 is starting: 5b82699ea06c23c7ced4e154081129168545ee79bb5075819674b0295ff5af5c
+2024-04-21T21:03:15.748+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 started in PT0.913583252S
+2024-04-21T21:03:15.748+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container is started (JDBC URL: jdbc:postgresql://localhost:32770/test?loggerLevel=OFF)
+2024-04-21T21:03:15.749+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] org.testcontainers.ext.ScriptUtils       : Executing database script from db/migration/V1__schema.sql
+2024-04-21T21:03:15.775+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] org.testcontainers.ext.ScriptUtils       : Executed database script from db/migration/V1__schema.sql in 25 ms.
+2024-04-21T21:03:15.787+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.EmployeeHistoryRouterTest  : Starting EmployeeHistoryRouterTest using Java 21 with PID 16564 (started by samit in /home/samit/workspace/all-in-one)
+2024-04-21T21:03:15.787+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.EmployeeHistoryRouterTest  : No active profile set, falling back to 1 default profile: "default"
+2024-04-21T21:03:15.890+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-04-21T21:03:15.897+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 5 JDBC repository interfaces.
+2024-04-21T21:03:15.938+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-04-21T21:03:15.972+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@44046b0d
+2024-04-21T21:03:15.973+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-04-21T21:03:16.033+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-04-21T21:03:16.061+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.EmployeeHistoryRouterTest  : Started EmployeeHistoryRouterTest in 0.285 seconds (process running for 6.321)
+2024-04-21T21:03:16.083+02:00  INFO 16564 --- [all-in-one] [parallel-4] [662562f4fae30218dfef0ba57036acff-690c47b4595a0d53] n.samitkumar.allinone.routers.Routers    : GET /db/employee/history 200 OK
+2024-04-21T21:03:16.358+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [net.samitkumar.allinone.routers.EmployeeRouterTests]: EmployeeRouterTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-21T21:03:16.365+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration net.samitkumar.allinone.AllInOneApplication for test class net.samitkumar.allinone.routers.EmployeeRouterTests
+2024-04-21T21:03:16.367+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Creating container for image: postgres:15
+2024-04-21T21:03:16.389+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 is starting: 945d7f3fed521f343ea01759f09b2e6f2d903cb62c69c3375708fe1597f9b736
+2024-04-21T21:03:17.246+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 started in PT0.879391417S
+2024-04-21T21:03:17.247+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container is started (JDBC URL: jdbc:postgresql://localhost:32771/test?loggerLevel=OFF)
+2024-04-21T21:03:17.248+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] org.testcontainers.ext.ScriptUtils       : Executing database script from db/migration/V1__schema.sql
+2024-04-21T21:03:17.276+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] org.testcontainers.ext.ScriptUtils       : Executed database script from db/migration/V1__schema.sql in 28 ms.
+2024-04-21T21:03:17.285+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.EmployeeRouterTests        : Starting EmployeeRouterTests using Java 21 with PID 16564 (started by samit in /home/samit/workspace/all-in-one)
+2024-04-21T21:03:17.286+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.EmployeeRouterTests        : No active profile set, falling back to 1 default profile: "default"
+2024-04-21T21:03:17.361+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-04-21T21:03:17.364+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 5 JDBC repository interfaces.
+2024-04-21T21:03:17.394+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2024-04-21T21:03:17.430+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@26c75b91
+2024-04-21T21:03:17.431+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2024-04-21T21:03:17.502+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-04-21T21:03:17.526+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.EmployeeRouterTests        : Started EmployeeRouterTests in 0.249 seconds (process running for 7.785)
+2024-04-21T21:03:17.565+02:00  INFO 16564 --- [all-in-one] [parallel-6] [662562f5d099ad9012c7d4a494da051a-464ab2c3ff6f2272] n.samitkumar.allinone.routers.Routers    : GET /db/employee 200 OK
+2024-04-21T21:03:17.598+02:00  INFO 16564 --- [all-in-one] [parallel-8] [662562f5126da42033d71e1db480681a-61344782bbda55bf] n.samitkumar.allinone.routers.Routers    : POST /db/employee 200 OK
+2024-04-21T21:03:17.624+02:00  INFO 16564 --- [all-in-one] [parallel-10] [662562f599b8d9f79ce01396679e79b3-a20d2e7d052c9d74] n.samitkumar.allinone.routers.Routers    : GET /db/employee/1 200 OK
+2024-04-21T21:03:17.644+02:00  INFO 16564 --- [all-in-one] [parallel-12] [662562f52486434e7feb16fd6d5b2acc-ac0e90bcce4c3744] n.samitkumar.allinone.routers.Routers    : PUT /db/employee/1 200 OK
+2024-04-21T21:03:17.702+02:00  INFO 16564 --- [all-in-one] [parallel-2] [662562f509042fc8baa5af78cce9f496-4bc65778b2090b55] n.samitkumar.allinone.routers.Routers    : DELETE /db/employee/1 200 OK
+2024-04-21T21:03:18.074+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [net.samitkumar.allinone.routers.JobTitleRouterTests]: JobTitleRouterTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-21T21:03:18.078+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration net.samitkumar.allinone.AllInOneApplication for test class net.samitkumar.allinone.routers.JobTitleRouterTests
+2024-04-21T21:03:18.081+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Creating container for image: postgres:15
+2024-04-21T21:03:18.098+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 is starting: d159882555ee317893637ddfda7a970b882337bbea16451e5ee749686cf3cd1e
+2024-04-21T21:03:18.957+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 started in PT0.875930241S
+2024-04-21T21:03:18.957+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container is started (JDBC URL: jdbc:postgresql://localhost:32772/test?loggerLevel=OFF)
+2024-04-21T21:03:18.958+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] org.testcontainers.ext.ScriptUtils       : Executing database script from db/migration/V1__schema.sql
+2024-04-21T21:03:18.994+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] org.testcontainers.ext.ScriptUtils       : Executed database script from db/migration/V1__schema.sql in 35 ms.
+2024-04-21T21:03:19.005+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.JobTitleRouterTests        : Starting JobTitleRouterTests using Java 21 with PID 16564 (started by samit in /home/samit/workspace/all-in-one)
+2024-04-21T21:03:19.005+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.JobTitleRouterTests        : No active profile set, falling back to 1 default profile: "default"
+2024-04-21T21:03:19.114+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-04-21T21:03:19.119+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 5 JDBC repository interfaces.
+2024-04-21T21:03:19.153+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2024-04-21T21:03:19.189+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@3444ac8f
+2024-04-21T21:03:19.190+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2024-04-21T21:03:19.239+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-04-21T21:03:19.261+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.a.routers.JobTitleRouterTests        : Started JobTitleRouterTests in 0.266 seconds (process running for 9.521)
+2024-04-21T21:03:19.270+02:00  INFO 16564 --- [all-in-one] [parallel-4] [662562f71d17da42e7e5da3f9319459b-618db634020d4245] n.samitkumar.allinone.routers.Routers    : GET /db/jobtitle 200 OK
+2024-04-21T21:03:19.285+02:00  INFO 16564 --- [all-in-one] [parallel-6] [662562f7d12c82fe47aa5a60c8ddf24a-a941072d59232786] n.samitkumar.allinone.routers.Routers    : POST /db/jobtitle 200 OK
+2024-04-21T21:03:19.298+02:00  INFO 16564 --- [all-in-one] [parallel-8] [662562f7376461d7fe4e1ffe3db081c5-7d817d7f05897bb1] n.samitkumar.allinone.routers.Routers    : GET /db/jobtitle/1 200 OK
+2024-04-21T21:03:19.309+02:00  INFO 16564 --- [all-in-one] [parallel-10] [662562f73af235cf990572ed94541e95-81e33fa5e959c8cb] n.samitkumar.allinone.routers.Routers    : PUT /db/jobtitle/1 200 OK
+2024-04-21T21:03:19.318+02:00  INFO 16564 --- [all-in-one] [parallel-12] [662562f7bf7957ba2d1e676c69e686de-3b766440413a9625] n.samitkumar.allinone.routers.Routers    : DELETE /db/jobtitle/1 200 OK
+2024-04-21T21:03:19.324+02:00  INFO 16564 --- [all-in-one] [parallel-2] [662562f7a6b401f56d3f423f0c31f596-03871720bc0da756] n.samitkumar.allinone.routers.Routers    : GET /db/jobtitle/1 500 INTERNAL_SERVER_ERROR
+2024-04-21T21:03:19.671+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [net.samitkumar.allinone.AllInOneApplicationTests]: AllInOneApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-21T21:03:19.681+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration net.samitkumar.allinone.AllInOneApplication for test class net.samitkumar.allinone.AllInOneApplicationTests
+2024-04-21T21:03:19.683+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Creating container for image: postgres:15
+2024-04-21T21:03:19.697+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 is starting: 0d5a592acd50480c8da2dfc13ddba66a54a29bd8bc2abf3a2503cda14de214d3
+2024-04-21T21:03:20.621+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 started in PT0.937965737S
+2024-04-21T21:03:20.621+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container is started (JDBC URL: jdbc:postgresql://localhost:32773/test?loggerLevel=OFF)
+2024-04-21T21:03:20.640+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.allinone.AllInOneApplicationTests    : Starting AllInOneApplicationTests using Java 21 with PID 16564 (started by samit in /home/samit/workspace/all-in-one)
+2024-04-21T21:03:20.640+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.allinone.AllInOneApplicationTests    : No active profile set, falling back to 1 default profile: "default"
+2024-04-21T21:03:20.734+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-04-21T21:03:20.738+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 5 JDBC repository interfaces.
+2024-04-21T21:03:20.882+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2024-04-21T21:03:20.883+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2024-04-21T21:03:20.883+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : 
+2024-04-21T21:03:20.900+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:32773/test (PostgreSQL 15.6)
+2024-04-21T21:03:20.915+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2024-04-21T21:03:20.916+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.006s)
+2024-04-21T21:03:20.921+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2024-04-21T21:03:20.969+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2024-04-21T21:03:20.973+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - schema"
+2024-04-21T21:03:20.985+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.007s)
+2024-04-21T21:03:20.993+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2024-04-21T21:03:20.999+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@43e869ea
+2024-04-21T21:03:20.999+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2024-04-21T21:03:21.090+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-04-21T21:03:21.123+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] n.s.allinone.AllInOneApplicationTests    : Started AllInOneApplicationTests in 0.498 seconds (process running for 11.382)
+2024-04-21T21:03:21.420+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [net.samitkumar.allinone.RepositoryTest]: RepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-21T21:03:21.423+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration net.samitkumar.allinone.AllInOneApplication for test class net.samitkumar.allinone.RepositoryTest
+2024-04-21T21:03:21.425+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Creating container for image: postgres:15
+2024-04-21T21:03:21.449+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 is starting: 7ea688fb9b04487f7d4ca3975060ccfe15edcf9b6bfb17ddc5c4619e69f7520a
+2024-04-21T21:03:22.407+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container postgres:15 started in PT0.981305953S
+2024-04-21T21:03:22.407+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] tc.postgres:15                           : Container is started (JDBC URL: jdbc:postgresql://localhost:32774/test?loggerLevel=OFF)
+2024-04-21T21:03:22.407+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] org.testcontainers.ext.ScriptUtils       : Executing database script from db/migration/V1__schema.sql
+2024-04-21T21:03:22.441+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] org.testcontainers.ext.ScriptUtils       : Executed database script from db/migration/V1__schema.sql in 34 ms.
+2024-04-21T21:03:22.450+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] net.samitkumar.allinone.RepositoryTest   : Starting RepositoryTest using Java 21 with PID 16564 (started by samit in /home/samit/workspace/all-in-one)
+2024-04-21T21:03:22.451+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] net.samitkumar.allinone.RepositoryTest   : No active profile set, falling back to 1 default profile: "default"
+2024-04-21T21:03:22.566+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-04-21T21:03:22.571+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 5 JDBC repository interfaces.
+2024-04-21T21:03:22.623+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2024-04-21T21:03:22.661+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection org.postgresql.jdbc.PgConnection@4d5dc037
+2024-04-21T21:03:22.661+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2024-04-21T21:03:22.711+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-04-21T21:03:22.729+02:00  INFO 16564 --- [all-in-one] [main] [                                                 ] net.samitkumar.allinone.RepositoryTest   : Started RepositoryTest in 0.286 seconds (process running for 12.989)
+2024-04-21T21:03:23.124+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-21T21:03:23.126+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-04-21T21:03:23.130+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2024-04-21T21:03:26.220+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2024-04-21T21:03:26.228+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2024-04-21T21:03:27.828+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2024-04-21T21:03:27.833+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2024-04-21T21:03:29.446+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2024-04-21T21:03:29.452+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2024-04-21T21:03:31.249+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+2024-04-21T21:03:31.255+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2024-04-21T21:03:32.896+02:00  INFO 16564 --- [all-in-one] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.

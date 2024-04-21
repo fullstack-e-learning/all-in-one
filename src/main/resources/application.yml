@@ -1,8 +1,8 @@
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        security: DEBUG
+logging:
+  level:
+    org:
+      springframework:
+        security: INFO
   file:
     name: all-in-one.yml
     path: ${LOG_FILE_PATH:/var/log}
