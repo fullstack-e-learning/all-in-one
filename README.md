@@ -42,7 +42,7 @@ Build & Run native image
 If we are interested to have the Environment variable , The details are as follows:
 ```shell
 BASE_PATH = "/path/to/store/file"
-DB_HOST = "<protocol>://<db-host>:<5432>"
+DB_HOST = "jdbc:postgresql://<hostname>:<port>/<dbName>"
 DB_USERNAME = "username"
 DB_PASSWORD = "password"
 ```
