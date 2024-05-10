@@ -1,4 +1,4 @@
-# all-in-one-api
+# all-in-one [ Monolith ]
 
 > To run this application , we need to have a valid `application.yml` file with valid db details for CRUD operation and a local folder path to keep the uploaded file
 
