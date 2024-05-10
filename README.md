@@ -64,9 +64,9 @@ Or , the same details can be pass as System `ENV` variable like below :
 
 
 <details>
-  <summary>Preproduction this application!</summary>
+  <summary>Production this application!</summary>
     
-  # Preproduction this application (as .jar)
+  # Production this application (as .jar)
     
   > Make sure you need to have CI/CD pipeline to build and deploy the application to the cloud or on-prem. 
     
