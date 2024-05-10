@@ -30,14 +30,14 @@ EXPOSE 5432
 # Second stage: build final image
 FROM openjdk:23-oraclelinux8
 
+# Set woring directory
+WORKDIR /app
+
 # Copy the JAR file from the dependencies stage
 COPY --from=dependencies /app /app
 
 # Copy PostgreSQL JDBC driver
 COPY --from=postgres /usr/share/java/postgresql.jar /app/postgresql.jar
-
-# Set working directory
-WORKDIR /app
 
 # Expose the port your app runs on
 EXPOSE 8080
