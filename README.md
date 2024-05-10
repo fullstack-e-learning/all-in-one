@@ -143,6 +143,3 @@ Or , the same details can be pass as System `ENV` variable like below :
   - Inspired from spring security [csrf](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html#csrf-components) token usage guide
 
 </details>
-
-
-
