@@ -1,71 +1,69 @@
 # all-in-one-api
 
-Inspired from spring security [csrf](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html#csrf-components) token usage guide
-
-Build & Run a Jar file
+To Build (Jar file)
+> Make sue , you have Java 21 install from the machine you are invoking these command.
 ```shell
 ./mvnw clean install
-# RUN
+```
+To Run the jar file:
+```shell
 java -jar target/all-in-one-api-0.0.1-SNAPSHOT.jar
 ```
+> This might fail , as to run this application , it need a postgres db and the db information can be pass as an external property (see below ..)
 
-Build & Run a native docker Image
-
+To Build (docker Image)
 ```shell
 ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=all-in-one-api:0.0.1-SNAPSHOT
+```
 
-# RUN
+To run the docker image
+```shell
 docker run -p 8080:8080 all-in-one-api:0.0.1-SNAPSHOT
 ```
+> This might fail , as to run this application , it need a postgres db and the db information can be pass as an external property (see below ..)
 
-Build & Run native image
+To Build (native image)
 ```shell
 ./mvnw native:compile -Pnative
-
-# RUN
+```
+To Run (native image)
+```shell
 ./target/all-in-one-api
 ```
+> This might fail , as to run this application , it need a postgres db and the db information can be pass as an external property (see below ..)
 
-# Preproduction this application (as .jar)
 
-> Make sure you need to have CI/CD pipeline to build and deploy the application to the cloud or on-prem. 
-
-### Necessary Infrastructure
-- Virtual Machine (VM) or Cloud Instance.
-- Make sure you have JRE installed in the VM.
-- File Storage (shared storage recommended for multiple instances)
-- Database (PostgreSQL)
-- Application Load Balancer (If we have multiple instances)
-
-> To run the jar file we need to have some Environment variable or the configuration file set up in the Instance (VM) : 
-
-If we are interested to have the Environment variable , The details are as follows:
+## To Run this application , We can follow several approach
+- Environment Variable
+This applicable for `jar` , `docker image` and `native image`.
 ```shell
 BASE_PATH = "/path/to/store/file"
-DB_HOST = "<protocol>://<db-host>:<5432>"
+DB_HOST = "<protocol>://<db-host>:<5432>/dbname"
 DB_USERNAME = "username"
 DB_PASSWORD = "password"
 ```
-then run the jar file as follows:
+- Jvm parameter
+To run the jar file, the property file can be pass as `-D` parameter. 
 ```shell
 # Download the latest release from this repository release section.
 java -jar -Dspring.datasource.url=${DB_HOST} -Dspring.datasource.username=${DB_USERNAME} -Dspring.datasource.password=${DB_PASSWORD} -Dspring.file.base-path=${BASE_PATH} all-in-one-api-<VERSION>.jar
 #OR
 java -jar all-in-one-api-<VERSION>.jar
 ```
-
-If we want to provide the configuration file insted of Environment variable `application.yml` then the content of the file should be as follows:
-- make sure you need to have a folder called `/config` near to the jar file (like below tree structure)
+- externalise the config file
+Make sure you need to have  file and folder structure like below.
 ```shell
-
+.
+├── all-in-one-1.0.17.jar
+└── config
+    └── application.yml
 ```
-- keep the `application.yml` file inside the /config folder
-- The content of the `application.yml` file should be as follows:
+The content of the `application.yml` file should be as follows:
 
 ```yaml
 spring:
   datasource:
-    url: "<protocol>://<db-host>:<5432>"
+    url: "<protocol>://<db-host>:<5432>/dbName"
     username: "username"
     password: "password"
   file:
@@ -73,9 +71,17 @@ spring:
 ```
 then run the jar file as follows:
 
+If your application.yml is somewhere else , you can also point that like below:
 ```shell
-# Download the latest release from this repository release section.
-java -jar all-in-one-api-<VERSION>.jar --spring.config.location=classpath:/config/application.yml
-#OR
-java -jar all-in-one-api-<VERSION>.jar
+java -jar all-in-one-api-<VERSION>.jar --spring.config.location=classpath:/path/to/application.yml
 ```
+
+# production this application (as .jar)
+> Make sure you need to have CI/CD pipeline to build and deploy the application to the cloud or on-prem.
+
+### Necessary Infrastructure
+- Virtual Machine (VM) or Cloud Instance.
+- Make sure you have JRE installed in the VM.
+- File Storage (shared storage recommended for multiple instances)
+- Database (PostgreSQL)
+- Application Load Balancer (If we have multiple instances)

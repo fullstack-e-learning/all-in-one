@@ -27,7 +27,7 @@ spring:
   datasource:
     username: ${DB_USERNAME:fake}
     password: ${DB_PASSWORD:fake}
-    url: ${DB_HOST:jdbc:postgresql://localhost:5740/all-in-one}
+    url: ${DB_HOST:jdbc:postgresql://localhost:5432/all-in-one}
   flyway:
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
