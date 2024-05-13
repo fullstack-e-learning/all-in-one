@@ -1,87 +1,145 @@
-# all-in-one-api
+# all-in-one [ Monolith ]
 
-To Build (Jar file)
-> Make sue , you have Java 21 install from the machine you are invoking these command.
-```shell
-./mvnw clean install
-```
-To Run the jar file:
-```shell
-java -jar target/all-in-one-api-0.0.1-SNAPSHOT.jar
-```
-> This might fail , as to run this application , it need a postgres db and the db information can be pass as an external property (see below ..)
-
-To Build (docker Image)
-```shell
-./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=all-in-one-api:0.0.1-SNAPSHOT
-```
-
-To run the docker image
-```shell
-docker run -p 8080:8080 all-in-one-api:0.0.1-SNAPSHOT
-```
-> This might fail , as to run this application , it need a postgres db and the db information can be pass as an external property (see below ..)
-
-To Build (native image)
-```shell
-./mvnw native:compile -Pnative
-```
-To Run (native image)
-```shell
-./target/all-in-one-api
-```
-> This might fail , as to run this application , it need a postgres db and the db information can be pass as an external property (see below ..)
-
-
-## To Run this application , We can follow several approach
-- Environment Variable
-This applicable for `jar` , `docker image` and `native image`.
-```shell
-BASE_PATH = "/path/to/store/file"
-DB_HOST = "<protocol>://<db-host>:<5432>/dbname"
-DB_USERNAME = "username"
-DB_PASSWORD = "password"
-```
-- Jvm parameter
-To run the jar file, the property file can be pass as `-D` parameter. 
-```shell
-# Download the latest release from this repository release section.
-java -jar -Dspring.datasource.url=${DB_HOST} -Dspring.datasource.username=${DB_USERNAME} -Dspring.datasource.password=${DB_PASSWORD} -Dspring.file.base-path=${BASE_PATH} all-in-one-api-<VERSION>.jar
-#OR
-java -jar all-in-one-api-<VERSION>.jar
-```
-- externalise the config file
-Make sure you need to have  file and folder structure like below.
-```shell
-.
-├── all-in-one-1.0.17.jar
-└── config
-    └── application.yml
-```
-The content of the `application.yml` file should be as follows:
+> To run this application , we need to have a valid `application.yml` file with valid db details for CRUD operation and a local folder path to keep the uploaded file
 
 ```yaml
-spring:
-  datasource:
-    url: "<protocol>://<db-host>:<5432>/dbName"
-    username: "username"
-    password: "password"
-  file:
-    base-path: "/path/to/store/file"
+    spring:
+      datasource:
+        url: "jdbc:postgresql://<hostname>:<port>/<dbName>"
+        username: "username"
+        password: "password"
+      file:
+        base-path: "/path/to/store/file"
 ```
-then run the jar file as follows:
 
-If your application.yml is somewhere else , you can also point that like below:
+Or , the same details can be pass as System `ENV` variable like below :
+
 ```shell
-java -jar all-in-one-api-<VERSION>.jar --spring.config.location=classpath:/path/to/application.yml
+    BASE_PATH = "/path/to/store/file"
+    DB_HOST = "jdbc:postgresql://<hostname>:<port>/<dbName>"
+    DB_USERNAME = "username"
+    DB_PASSWORD = "password"
 ```
 
-# production this application (as .jar)
+<details>
+  <summary>Build & Run as a Jar file</summary>
+
+> Make sure Java is installed on the machine you are trying to run this
+
+  ```shell
+    ./mvnw clean install
+
+    # TO RUN
+    java -jar target/all-in-one-api-0.0.1-SNAPSHOT.jar
+  ```
+</details>
+
+<details>
+  <summary>Build & Run as a Docker Image</summary>
+
+> Make sure Java is installed on the machine you are trying to run this
+
+  ```shell
+    ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=all-in-one-api:0.0.1-SNAPSHOT
+    
+    # To RUN
+    docker run -p 8080:8080 all-in-one-api:0.0.1-SNAPSHOT
+  ```
+</details>
+
+<details>
+  <summary>Build & Run as native image</summary>
+
+> Make sure you have GraalVm Jdk distro installed on the machine you are trying to run this.
+
+> This are native to OS. Meaning creating a native executable for Linux can be run Linux without any Jdk or Jre. same apply for Windows OS and Mac OS.
+
+  ```shell
+    ./mvnw native:compile -Pnative
+    
+    # TO RUN
+    ./target/all-in-one-api
+  ```
+</details>
+
+
+<details>
+  <summary>Production this application!</summary>
+
+# Production this application (as .jar)
+
 > Make sure you need to have CI/CD pipeline to build and deploy the application to the cloud or on-prem.
 
 ### Necessary Infrastructure
-- Virtual Machine (VM) or Cloud Instance.
-- Make sure you have JRE installed in the VM.
-- File Storage (shared storage recommended for multiple instances)
-- Database (PostgreSQL)
-- Application Load Balancer (If we have multiple instances)
+
+    - Virtual Machine (VM) or Cloud Instance.
+    
+    - Make sure you have JRE installed in the VM.
+    
+    - File Storage (shared storage recommended for multiple instances)
+    
+    - Database (PostgreSQL)
+    
+    - Application Load Balancer (If we have multiple instances)
+
+> To run the jar file we need to have some Environment variable or the configuration file set up in the Instance (VM) :
+
+    If we are interested to have the Environment variable , The details are as follows:
+    
+    ```shell
+      BASE_PATH = "/path/to/store/file"
+      DB_HOST = "jdbc:postgresql://<hostname>:<port>/<dbName>"
+      DB_USERNAME = "username"
+      DB_PASSWORD = "password"
+    ```
+    then run the jar file as follows:
+    
+    ```shell
+      # Download the latest release from this repository release section.
+      java -jar -Dspring.datasource.url=${DB_HOST} -Dspring.datasource.username=${DB_USERNAME} -Dspring.datasource.password=${DB_PASSWORD} -Dspring.file.base-path=${BASE_PATH} all-in-one-api-<VERSION>.jar
+      #OR
+      java -jar all-in-one-api-<VERSION>.jar
+    ```
+    
+    If we want to provide the configuration file insted of Environment variable `application.yml` then the content of the file should be as follows:
+    
+    - make sure you need to have a folder called `/config` near to the jar file (like below tree structure)
+    
+    - keep the `application.yml` file inside the /config folder
+    
+    ```shell
+    .
+    ├── all-in-one-1.0.18.jar
+    └── config
+        └── application.yml
+    ```
+    
+    - The content of the `application.yml` file should be as follows:
+    
+    ```yaml
+    spring:
+      datasource:
+        url: "jdbc:postgresql://<hostname>:<port>/<dbName>"
+        username: "username"
+        password: "password"
+      file:
+        base-path: "/path/to/store/file"
+    ```
+    then run the jar file as follows:
+    
+    ```shell
+    # Download the latest release from this repository release section.
+    java -jar all-in-one-api-<VERSION>.jar --spring.config.location=classpath:/config/application.yml
+    #OR
+    java -jar all-in-one-api-<VERSION>.jar
+    ```
+</details>
+
+
+
+<details>
+  <summary>Other</summary>
+
+- Inspired from spring security [csrf](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html#csrf-components) token usage guide
+
+</details>
