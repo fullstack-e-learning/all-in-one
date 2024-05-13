@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:14.1-alpine
+    container_name: postgresdb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: all-in-one
+    networks:
+      - all-in-one
+
+  all-in-one:
+    image: ghcr.io/fullstack-e-learning/all-in-one:210420241933
+    container_name: all-in-one
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: jdbc:postgresql://db:5432/all-in-one
+      DB_USERNAME: user
+      DB_PASSWORD: secret
+      BASE_PATH: /workspace/photo
+    volumes:
+      - upload:/workspace/photo
+    networks:
+      - all-in-one
+    user: root:root
+
+networks:
+  all-in-one:
+
+volumes:
+  upload:

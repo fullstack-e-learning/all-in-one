@@ -90,8 +90,10 @@
 </head>
 <body>
     <div id="app">
-       <h1>{{ message }}</h1>
-        <a href="/">Dashboard</a>
+        <h1>{{ message }}</h1>
+        <p>Welcome {{me}} !</p>
+        <a href="/">Dashboard</a> |
+        <a href="/logout">Logout</a>
         <div class="demo">
             <button v-for="(_, tab) in tabs"
                     :key="tab"
@@ -407,6 +409,7 @@
             setup() {
                 const message = ref('Employee Management!')
                 const currentTab = ref('Home')
+                const me = ref(null)
                 const Home = {
                     template: '#home',
                     setup() {
@@ -719,8 +722,18 @@
                     }
                 }
                 const tabs = { Home, Department, JobTitle, Employee, EmployeeHistory, EmployeeDocuments }
+                const whoAmI = () => {
+                    fetch(`${apiHost}/me`)
+                        .then(response => {
+                            if(!response.ok) throw new Error("Error while fetch data from /me")
+                            return response.json()
+                        })
+                        .then(data => me.value = data.name)
+                        .catch(err => console.log(err))
+                }
+                whoAmI()
                 return {
-                    message, currentTab, tabs
+                    message, currentTab, tabs, me
                 }
             },
             //register the external component

@@ -45,7 +45,9 @@
     </head>
     <body>
         <div id="app">
-            <a href="/">Dashboard</a>
+            <p id="me">Welcome {{me}}!</p>
+            <a href="/">Dashboard</a>|
+            <a href="/logout">Logout</a>
             <h1>{{message}}</h1>
             <div class="">
                 <input type="file" placeholder="Upload files" accept="image/*" ref="file" multiple>
@@ -79,6 +81,8 @@
                     const files = ref([])
                     const e = ref(null)
                     const apiHost = ''
+                    const me = ref(null)
+
                     const uploadFile = () => {
 
                         console.log(file.value.files)
@@ -119,9 +123,20 @@
                             })
                             .catch(err => e.value = err);
                     }
+
+                    const whoAmI = () => {
+                        fetch(`${apiHost}/me`)
+                            .then(response => {
+                                if(!response.ok) throw new Error("Error while fetch data from /me")
+                                return response.json()
+                            })
+                            .then(data => me.value = data.name)
+                            .catch(err => e.value = err)
+                    }
+                    whoAmI()
                     allFile()
                     return {
-                        message, e, file, files,
+                        message, e, file, files, me,
                         uploadFile, allFile
                     }
                 }
