@@ -24,8 +24,8 @@ Or , the same details can be pass as System `ENV` variable like below :
 <details>
   <summary>Build & Run as a Jar file</summary>
 
-  > Make sure Java is installed on the machine you are trying to run this
-  
+> Make sure Java is installed on the machine you are trying to run this
+
   ```shell
     ./mvnw clean install
 
@@ -37,7 +37,7 @@ Or , the same details can be pass as System `ENV` variable like below :
 <details>
   <summary>Build & Run as a Docker Image</summary>
 
-  > Make sure Java is installed on the machine you are trying to run this
+> Make sure Java is installed on the machine you are trying to run this
 
   ```shell
     ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=all-in-one-api:0.0.1-SNAPSHOT
@@ -49,10 +49,10 @@ Or , the same details can be pass as System `ENV` variable like below :
 
 <details>
   <summary>Build & Run as native image</summary>
-  
-  > Make sure you have GraalVm Jdk distro installed on the machine you are trying to run this.
-  
-  > This are native to OS. Meaning creating a native executable for Linux can be run Linux without any Jdk or Jre. same apply for Windows OS and Mac OS.
+
+> Make sure you have GraalVm Jdk distro installed on the machine you are trying to run this.
+
+> This are native to OS. Meaning creating a native executable for Linux can be run Linux without any Jdk or Jre. same apply for Windows OS and Mac OS.
 
   ```shell
     ./mvnw native:compile -Pnative
@@ -65,13 +65,13 @@ Or , the same details can be pass as System `ENV` variable like below :
 
 <details>
   <summary>Production this application!</summary>
-    
-  # Production this application (as .jar)
-    
-  > Make sure you need to have CI/CD pipeline to build and deploy the application to the cloud or on-prem. 
-    
-  ### Necessary Infrastructure  
-    
+
+# Production this application (as .jar)
+
+> Make sure you need to have CI/CD pipeline to build and deploy the application to the cloud or on-prem.
+
+### Necessary Infrastructure
+
     - Virtual Machine (VM) or Cloud Instance.
     
     - Make sure you have JRE installed in the VM.
@@ -81,9 +81,9 @@ Or , the same details can be pass as System `ENV` variable like below :
     - Database (PostgreSQL)
     
     - Application Load Balancer (If we have multiple instances)
-    
-  > To run the jar file we need to have some Environment variable or the configuration file set up in the Instance (VM) : 
-    
+
+> To run the jar file we need to have some Environment variable or the configuration file set up in the Instance (VM) :
+
     If we are interested to have the Environment variable , The details are as follows:
     
     ```shell
@@ -139,7 +139,7 @@ Or , the same details can be pass as System `ENV` variable like below :
 
 <details>
   <summary>Other</summary>
-  
-  - Inspired from spring security [csrf](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html#csrf-components) token usage guide
+
+- Inspired from spring security [csrf](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html#csrf-components) token usage guide
 
 </details>

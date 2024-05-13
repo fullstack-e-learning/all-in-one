@@ -4,9 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import net.samitkumar.allinone.handlers.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 
 @Configuration
@@ -21,6 +29,7 @@ public class Routers {
                                                   EmployeeHistoryHandler employeeHistoryHandler) {
         return RouterFunctions
                 .route()
+                .GET("/me", this::me)
                 .path("/scan", builder -> builder
                         .GET("", fileHandler::scan)
                 )
@@ -72,5 +81,17 @@ public class Routers {
                     return response;
                 })
                 .build();
+    }
+
+    private Mono<ServerResponse> me(ServerRequest request) {
+        return ReactiveSecurityContextHolder
+                .getContext()
+                .map(SecurityContext::getAuthentication)
+                .map(authentication -> {
+                    var roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority);
+                    var name = authentication.getName();
+                    return Map.of("roles", roles, "name", name);
+                })
+                .flatMap(ServerResponse.ok()::bodyValue);
     }
 }

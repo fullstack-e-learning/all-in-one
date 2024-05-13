@@ -14,7 +14,7 @@
             width: 50%;
             text-align: center;
         }
-        a {
+        a.menu {
             display: inline-block;
             margin-right: 20px;
             text-decoration: none;
@@ -34,9 +34,23 @@
 </head>
 <body>
     <h1>Dashboard</h1>
+    <div>
+        <span id="me">Welcome XYZ</span>
+        <a href="/logout">Logout</a>
+    </div>
     <p>Click to explore below available module</p>
+    <p></p>
     <hr/>
-    <a href="/album">Album</a>
-    <a href="/mnc">Employee Management</a>
+    <a class="menu" href="/album">Album</a>
+    <a class="menu" href="/mnc">Employee Management</a>
+    <script>
+        fetch("/me")
+            .then(response => {
+                if(!response.ok) throw new Error("/me fetch error")
+                return response.json()
+            })
+            .then(data => document.getElementById("me").textContent = `Welcome ${data.name}! `)
+            .catch(error => console.log(error))
+    </script>
 </body>
 </html>
