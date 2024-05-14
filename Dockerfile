@@ -1,46 +1,56 @@
-# First stage: pull dependencies
-FROM ubuntu AS dependencies
+# Use a base image
+FROM openjdk:16-jdk-alpine
 
-# Update package lists and install necessary packages
-RUN apt-get update && \
-    apt-get install -y wget && \
-    apt-get clean
-
-# Download the JAR file
-RUN wget https://github.com/fullstack-e-learning/all-in-one/releases/download/v1.0.17/all-in-one-1.0.17.jar -O /app.jar
-
-# Create a directory for the application
-RUN mkdir /app
-
-# Move the JAR file to the app directory
-RUN mv /app.jar /app/app.jar
-
-# Use the official PostgreSQL image from Docker Hub for the second stage
-FROM postgres:latest AS postgres
-
-# Set environment variables
-ENV POSTGRES_DB=allinone
-ENV POSTGRES_USER=allinoneuser
-ENV POSTGRES_PASSWORD=allinonepass
-ENV POSTGRES_PORT=5432
-
-# Expose PostgreSQL port
-EXPOSE 5432
-
-# Second stage: build final image
-FROM openjdk:23-oraclelinux8
-
-# Set woring directory
+# Set working directory
 WORKDIR /app
 
-# Copy the JAR file from the dependencies stage
-COPY --from=dependencies /app /app
+# Download the JAR file
+ADD https://github.com/fullstack-e-learning/all-in-one/releases/download/v1.0.22/all-in-one-1.0.22.jar /app/all-in-one.jar
 
-# Copy PostgreSQL JDBC driver
-COPY --from=postgres /usr/share/java/postgresql.jar /app/postgresql.jar
-
-# Expose the port your app runs on
+# Expose any necessary ports
 EXPOSE 8080
 
-# Define the command to run the JAR file with Java
-CMD ["java", "-cp", ".:postgresql.jar", "-jar", "app.jar"]
+# Environment variables for database connection
+ENV DB_HOST=postgresdb \
+    DB_PORT=5432 \
+    DB_NAME=postgresdb \
+    DB_USER=username \
+    DB_PASS=password
+
+# Command to run the application
+# CMD ["java", "-jar", "all-in-one.jar"]
+CMD ["java", "-jar", "all-in-one-1.0.22.jar", \
+     "--db-host=$DB_HOST", \
+     "--db-port=$DB_PORT", \
+     "--db-name=$DB_NAME", \
+     "--db-user=$DB_USER", \
+     "--db-pass=$DB_PASS"]
+
+
+# # Use a base image with Java 21
+# FROM adoptopenjdk/openjdk16:alpine
+
+# # Set the working directory
+# WORKDIR /app
+
+# # Copy the JAR file into the container
+# COPY all-in-one-1.0.22.jar /app
+
+# # Expose any ports your app needs
+# EXPOSE 8080
+
+# # Environment variables for database connection
+# ENV DB_HOST=localhost \
+#     DB_PORT=5432 \
+#     DB_NAME=mydatabase \
+#     DB_USER=myuser \
+#     DB_PASS=mypassword
+
+# # Command to run your application with database connection parameters
+# CMD ["java", "-jar", "all-in-one-1.0.22.jar", \
+#      "--db-host=$DB_HOST", \
+#      "--db-port=$DB_PORT", \
+#      "--db-name=$DB_NAME", \
+#      "--db-user=$DB_USER", \
+#      "--db-pass=$DB_PASS"]
+
