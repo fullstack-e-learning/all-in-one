@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - mynetwork
+      - appnetwork
     volumes:
       - db-data:/var/lib/postgresql/data
 
@@ -30,7 +30,7 @@ services:
     volumes:
       - upload:/workspace/photo
     networks:
-      - mynetwork
+      - appnetwork
     user: root:root
 
 volumes:
@@ -38,5 +38,5 @@ volumes:
   upload:
 
 networks:
-  mynetwork:
+  appnetwork:
     driver: bridge
