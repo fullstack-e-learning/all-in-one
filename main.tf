@@ -318,3 +318,12 @@ resource "ansible_host" "host" {
     db_password                  = aws_db_instance.db.password
   }
 }
+
+# docker
+resource "docker_image" "all-in-one" {
+  name         = "my-app:latest"
+  build {
+    context    = "${path.module}/."
+    dockerfile = "${path.module}/Dockerfile"
+  }
+}

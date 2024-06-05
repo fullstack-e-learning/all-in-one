@@ -9,6 +9,11 @@ terraform {
       version = "~> 1.3.0"
       source  = "ansible/ansible"
     }
+
+    docker = {
+      source = "kreuzwerker/docker"
+      version = "~> 3.0.1"
+    }
   }
   backend "s3" {
     bucket = "tfpocbucket001"
@@ -20,3 +25,5 @@ terraform {
 provider "aws" {
   region = "eu-north-1"
 }
+
+provider "docker" {}
